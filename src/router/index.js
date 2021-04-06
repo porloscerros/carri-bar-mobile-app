@@ -1,11 +1,11 @@
 import Home from '~/pages/Home'
-import PageOne from '~/pages/PageOne'
-import PageTwo from '~/pages/PageTwo'
+import Inventory from '~/pages/Inventory'
+import Recipes from '~/pages/Recipes'
 
 const routes = {
     Home,
-    PageOne,
-    PageTwo
-}
+    Inventory,
+    Recipes
+};
 
 export default routes

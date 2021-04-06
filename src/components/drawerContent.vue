@@ -1,7 +1,7 @@
 <template>
     <ScrollView>
         <StackLayout width="100%">
-            <Label class="drawer-header" text="Berni"/>
+            <Label class="drawer-header" text="La Bohemia"/>
 
             <Label
                     v-for="(page, i) in pages"
@@ -27,8 +27,8 @@
                 // define our pages, making sure the component matches that defined in /app/router/index.js
                 pages: [
                     { name: 'Home', component: this.$routes.Home },
-                    { name: 'Page One', component: this.$routes.PageOne },
-                    { name: 'Page Two', component: this.$routes.PageTwo }
+                    { name: 'Inventario', component: this.$routes.Inventory },
+                    { name: 'Recetas', component: this.$routes.Recipes }
                 ]
             }
         },

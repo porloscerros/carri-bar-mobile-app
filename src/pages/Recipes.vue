@@ -3,7 +3,7 @@
         <ActionBar>
             <GridLayout width="100%" columns="auto, *">
                 <Label text="MENU" @tap="openDrawer()" col="0"/>
-                <Label class="title" text="La Bohemia App"  col="1"/>
+                <Label class="title" text="Recetas"  col="1"/>
             </GridLayout>
         </ActionBar>
 
@@ -17,11 +17,11 @@
     import sideDrawer from '~/mixins/sideDrawer';
 
     export default {
-        name: "PageOne",
+        name: "Recipes",
         mixins: [ sideDrawer ],
         data () {
             return {
-                text: 'Hello Page One!'
+                text: 'Hello Page Two!'
             }
         }
     }
