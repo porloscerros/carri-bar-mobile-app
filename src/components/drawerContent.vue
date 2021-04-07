@@ -28,7 +28,8 @@
                 pages: [
                     { name: 'Home', component: this.$routes.Home },
                     { name: 'Inventario', component: this.$routes.Inventory },
-                    { name: 'Recetas', component: this.$routes.Recipes }
+                    { name: 'Recetas', component: this.$routes.Recipes },
+                    { name: 'Personas', component: this.$routes.Person },
                 ]
             }
         },
