@@ -2,8 +2,8 @@
     <Page>
         <ActionBar>
             <GridLayout width="100%" columns="auto, *">
-                <Label text="MENU" @tap="openDrawer()" col="0"/>
-                <Label class="title" text="La Bohemia App"  col="1"/>
+                <Label :text="appName" @tap="openDrawer()" col="0"/>
+                <Label class="title" text="Home"  col="1"/>
             </GridLayout>
         </ActionBar>
 
@@ -15,15 +15,25 @@
 
 <script>
     import sideDrawer from '~/mixins/sideDrawer';
+    import { mapGetters } from 'vuex';
 
     export default {
         name: "Home",
         mixins: [ sideDrawer ],
+        computed: {
+            ...mapGetters({
+                appName: 'appName',
+                user: 'auth/user',
+            })
+        },
         data () {
             return {
-                text: 'Hello Home Page!'
+                text: 'Hello Home Page!',
             }
         },
+        mounted() {
+            
+        }
     }
 </script>
 

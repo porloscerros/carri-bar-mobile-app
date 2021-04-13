@@ -2,7 +2,7 @@
     <Page>
         <ActionBar>
             <GridLayout width="100%" columns="auto, *">
-                <Label text="MENU" @tap="openDrawer()" col="0"/>
+                <Label text="La Bohemia Admin" @tap="openDrawer()" col="0"/>
                 <Label class="title" text="Recetas"  col="1"/>
             </GridLayout>
         </ActionBar>

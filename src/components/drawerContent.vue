@@ -1,7 +1,7 @@
 <template>
     <ScrollView>
         <StackLayout width="100%">
-            <Label class="drawer-header" text="La Bohemia"/>
+            <Label class="drawer-header" :text="user? user.name: 'desconocido'"/>
 
             <Label
                     v-for="(page, i) in pages"
@@ -18,10 +18,17 @@
 
 <script>
     import sideDrawer from '~/mixins/sideDrawer';
+    import { mapGetters } from 'vuex';
 
     export default {
         name: "drawerContent",
         mixins: [sideDrawer],
+        computed: {
+            ...mapGetters({
+                appName: 'appName',
+                user: 'auth/user',
+            })
+        },
         data () {
             return {
                 // define our pages, making sure the component matches that defined in /app/router/index.js
@@ -29,15 +36,13 @@
                     { name: 'Home', component: this.$routes.Home },
                     { name: 'Inventario', component: this.$routes.Inventory },
                     { name: 'Recetas', component: this.$routes.Recipes },
-                    { name: 'Personas', component: this.$routes.Person },
+                    { name: 'Login', component: this.$routes.Login },
                 ]
             }
         },
         methods: {
             goToPage (pageComponent) {
-                // use the manual navigation method
                 this.$navigateTo(pageComponent)
-                // and we probably want to close the drawer when changing pages
                 this.closeDrawer()
             }
         }
@@ -45,5 +50,35 @@
 </script>
 
 <style scoped>
+.title {
+  text-align: left;
+  padding-left: 16;
+}
 
+.message {
+  vertical-align: center;
+  text-align: center;
+  font-size: 20;
+  color: #333333;
+}
+.drawer-close-button {
+  margin-top: 20;
+  padding: 10 10 10 10;
+  background-color: #53ba82;
+  color: #ffffff;
+}
+
+.drawer-header {
+  padding: 50 16 16 16;
+  margin-bottom: 16;
+  background-color: #333333;
+  color: #ffffff;
+  font-size: 24;
+}
+
+.drawer-item {
+  padding: 8 16;
+  color: #333333;
+  font-size: 16;
+}
 </style>
