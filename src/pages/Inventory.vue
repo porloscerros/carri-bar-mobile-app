@@ -7,14 +7,18 @@
             </GridLayout>
         </ActionBar>
 
-        <GridLayout ~mainContent columns="*" rows="*">
-            <ListView for="item in listOfItems" @itemTap="onItemTap" :visibility="loading?'hidden':'visible'" >
-                <v-template>
-                    <Label :text="item.name" />
-                </v-template>
-            </ListView>
-            <ActivityIndicator :busy="loading" row="1" col="1"/>
-        </GridLayout>
+        <ListView ~mainContent for="item in listOfItems">
+            <v-template>
+                <GridLayout columns="*, *, *">
+                    <Button :text="`${item.name}`" col="0"
+                        @tap="onItemTap(item)" />
+                    <Button :text="`${item.quantity}`" col="1"
+                        @tap="onItemTap(item)" />
+                    <Button :text="`${item.measurement_unit.name}`" col="2"
+                        @tap="onItemTap(item)" />
+                </GridLayout>
+            </v-template>
+        </ListView>
 
     </Page>
 </template>
@@ -51,11 +55,10 @@
                 }
                 this.loading = false;
             },
-            onItemTap(e) {
-                let item = e.item;
-                console.log(item)
+            onItemTap(item) {
+                console.log(item);
                 // this.$navigateTo(TypeList, {props: {service:service, location:this.location}})
-            }
+            },
         },
         mounted() {
             console.log('Inventory mounted');
