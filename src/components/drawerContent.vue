@@ -1,18 +1,21 @@
 <template>
     <ScrollView>
-        <StackLayout width="100%">
-            <Label class="drawer-header" :text="user? user.name: 'desconocido'"/>
-
-            <Label
-                    v-for="(page, i) in pages"
-                    @tap="goToPage(page.component)"
-                    class="drawer-item"
-                    :text="page.name"
-                    :key="i"
-            />
-
-            <Button class="drawer-close-button" @tap="closeDrawer()">Close Drawer</Button>
-        </StackLayout>
+        <GridLayout rows="auto, *" width="100%">
+            <StackLayout class="headerContent">
+                <Label class="drawer-header" :text="user? user.name: 'desconocido'"/>
+            </StackLayout>
+            <ScrollView row="1">
+                <StackLayout class="drawerMenuContent">
+                    <Label class="drawer-item"
+                            v-for="(page, i) in pages"
+                            @tap="goToPage(page.component)"
+                            :text="page.name"
+                            :key="i"
+                    />
+                    <Button class="drawer-close-button" @tap="closeDrawer()">Close Drawer</Button>
+                </StackLayout>
+            </ScrollView>
+        </GridLayout>
     </ScrollView>
 </template>
 
