@@ -1,65 +1,49 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
+import auth from './modules/auth';
 import sideDrawer from './modules/sideDrawer';
-
-const Sqlite = require("nativescript-sqlite");
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
     modules: {
         sideDrawer,
+        auth
     },
     state: {
-        database: null,
-        data: []
+        appName: 'La Bohemia Admin',
+        apiBaseUrl: 'http://192.168.43.189:8080/api', // http://la-bohemia.herokuapp.com/api
+        loadingCount: 0,
     },
     mutations: {
-        init(state, data) {
-            state.database = data.database;
+        INCREMENT_LOADING (state) {
+            state.loadingCount ++;
         },
-        load(state, data) {
-            state.data = [];
-            for(var i = 0; i < data.data.length; i++) {
-                state.data.push({
-                    firstname: data.data[i][0],
-                    lastname: data.data[i][1]
-                });
-            }
-        },
-        save(state, data) {
-            state.data.push({
-                firstname: data.data.firstname,
-                lastname: data.data.lastname
-            });
+        DECREMENT_LOADING (state) {
+            state.loadingCount --;
         },
     },
     actions: {
-        init(context) {
-            (new Sqlite("my.db")).then(db => {
-                db.execSQL("CREATE TABLE IF NOT EXISTS people (id INTEGER PRIMARY KEY AUTOINCREMENT, firstname TEXT, lastname TEXT)").then(id => {
-                    context.commit("init", { database: db });
-                }, error => {
-                    console.log("CREATE TABLE ERROR", error);
-                });
-            }, error => {
-                console.log("OPEN DB ERROR", error);
-            });
+        init ({ dispatch }) {
+            dispatch('auth/loadLocalStoredToken', null, { root: true });
         },
-        insert(context, data) {
-            context.state.database.execSQL("INSERT INTO people (firstname, lastname) VALUES (?, ?)", [data.firstname, data.lastname]).then(id => {
-                context.commit("save", { data: data });
-            }, error => {
-                console.log("INSERT ERROR", error);
-            });
+        incrementLoading (context) {
+            context.commit('INCREMENT_LOADING');
         },
-        query(context) {
-            context.state.database.all("SELECT firstname, lastname FROM people", []).then(result => {
-                context.commit("load", { data: result });
-            }, error => {
-                console.log("SELECT ERROR", error);
-            });
-        }
+        decrementLoading (context) {
+            context.commit('DECREMENT_LOADING');
+        },
+    },
+    getters: {
+        isLoading: state => {
+            return state.loadingCount > 0;
+        },
+        appName: state => {
+            return state.appName;
+        },
+        apiBaseUrl: state => {
+            return state.apiBaseUrl;
+        },
     }
 });

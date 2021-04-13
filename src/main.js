@@ -29,7 +29,7 @@ new Vue({
             sideDrawer,
             [
                 h(drawerContent, { slot: 'drawerContent' }),
-                h(routes.Home, { slot: 'mainContent' })
+                h(routes.Login, { slot: 'mainContent' })
             ]
         )
     }
