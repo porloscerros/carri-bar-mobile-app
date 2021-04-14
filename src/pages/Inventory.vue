@@ -28,7 +28,6 @@
                     class="fab-button"
             ></fab>
         </grid-layout>
-
     </Page>
 </template>
 
@@ -54,12 +53,6 @@
                     minimum_quantity: 0,
                     recommended_quantity: 0,
                     cost: null,
-                    // 'name' => 'required|string|max:64',
-                    // 'quantity' => 'required|numeric',
-                    // 'minimum_quantity' => 'required|numeric',
-                    // 'recommended_quantity' => 'required|numeric',
-                    // 'cost' => 'required|numeric',
-                    // 'measurement_unit_id' => 'required|integer',
                 },
                 measurement_units: []
             }
