@@ -98,18 +98,21 @@
                 this.loading = false;
             },
             onItemTap(item) {
-                console.log(item);
+                alert({
+                    title: item.name,
+                    message: `Cantidad: ${item.quantity} ${item.measurement_unit.name}\nCosto: $${item.cost}\nCantidad Mínima: ${item.minimum_quantity} ${item.measurement_unit.name} \nCantidad Recomendada: ${item.recommended_quantity} ${item.measurement_unit.name}`,
+                    okButtonText: "OK"
+                })
                 // this.$navigateTo(TypeList, {props: {service:service, location:this.location}})
             },
             add() {
-                console.log('add botton tap');
                 // this.$navigateTo(TypeList, {props: {service:service, location:this.location}})
-
                 prompt({
                     title: "Nombre",
                     message: "El nombre del ingrediente:",
                     okButtonText: "OK",
                     cancelButtonText: "Cancelar",
+                    defaultText: this.form.name,
                     inputType: dialogs.inputType.text
                 }).then(result => {
                     this.form.name = result.text;
@@ -118,6 +121,7 @@
                         message: "La cantidad existente del ingrediente:",
                         okButtonText: "OK",
                         cancelButtonText: "Cancelar",
+                        defaultText: this.form.quantity,
                         inputType: dialogs.inputType.number
                     }).then(result => {
                         this.form.quantity = result.text;
@@ -133,6 +137,7 @@
                                 message: "El precio de compra:",
                                 okButtonText: "OK",
                                 cancelButtonText: "Cancelar",
+                                defaultText: this.form.cost,
                                 inputType: dialogs.inputType.number
                             }).then(result => {
                                 this.form.cost = result.text;
