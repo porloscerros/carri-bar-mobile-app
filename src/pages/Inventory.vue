@@ -35,6 +35,7 @@
 <script>
     import sideDrawer from '~/mixins/sideDrawer';
     //import CardInventory from '../components/CardInventory';
+    const dialogs = require('tns-core-modules/ui/dialogs');
 
     export default {
         name: "Inventory",
@@ -45,7 +46,22 @@
         data () {
             return {
                 loading: true,
-                listOfItems:[]
+                listOfItems:[],
+                form: {
+                    name: '',
+                    quantity: null,
+                    measurement_unit_id: null,
+                    minimum_quantity: 0,
+                    recommended_quantity: 0,
+                    cost: null,
+                    // 'name' => 'required|string|max:64',
+                    // 'quantity' => 'required|numeric',
+                    // 'minimum_quantity' => 'required|numeric',
+                    // 'recommended_quantity' => 'required|numeric',
+                    // 'cost' => 'required|numeric',
+                    // 'measurement_unit_id' => 'required|integer',
+                },
+                measurement_units: []
             }
         },
         methods:{
@@ -60,18 +76,77 @@
                 }
                 this.loading = false;
             },
+            async fetchMU () {
+                this.loading = true;
+                try {
+                    const { data } = await this.$http.get(`/v1/measurement-units`);
+                    if(data)
+                        this.measurement_units = data;
+                } catch(error) {
+                    console.log(error);
+                }
+                this.loading = false;
+            },
+            async submitCreate () {
+                this.loading = true;
+                try {
+                    await this.$http.post(`/v1/inventories`, this.form);
+                    this.fetchItems();
+                } catch(error) {
+                    console.log(error);
+                }
+                this.loading = false;
+            },
             onItemTap(item) {
                 console.log(item);
                 // this.$navigateTo(TypeList, {props: {service:service, location:this.location}})
             },
-            add(item) {
-                console.log(item);
+            add() {
+                console.log('add botton tap');
                 // this.$navigateTo(TypeList, {props: {service:service, location:this.location}})
+
+                prompt({
+                    title: "Nombre",
+                    message: "El nombre del ingrediente:",
+                    okButtonText: "OK",
+                    cancelButtonText: "Cancelar",
+                    inputType: dialogs.inputType.text
+                }).then(result => {
+                    this.form.name = result.text;
+                    prompt({
+                        title: "Cantidad",
+                        message: "La cantidad existente del ingrediente:",
+                        okButtonText: "OK",
+                        cancelButtonText: "Cancelar",
+                        inputType: dialogs.inputType.number
+                    }).then(result => {
+                        this.form.quantity = result.text;
+                        let options = this.measurement_units.map(mu => mu.name);
+                        action(
+                            "Unidad de Medida",
+                            "Cancelar",
+                            options
+                        ).then(result => {
+                            this.form.measurement_unit_id = this.measurement_units.find(mu => mu.name === result).id;
+                            prompt({
+                                title: "Costo",
+                                message: "El precio de compra:",
+                                okButtonText: "OK",
+                                cancelButtonText: "Cancelar",
+                                inputType: dialogs.inputType.number
+                            }).then(result => {
+                                this.form.cost = result.text;
+                                this.submitCreate();
+                            });
+                        });
+                    });
+                });
             },
         },
         mounted() {
             console.log('Inventory mounted');
             this.fetchItems();
+            this.fetchMU();
         },
     }
 </script>
