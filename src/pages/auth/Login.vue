@@ -14,10 +14,21 @@
 </template>
 
 <script>
-    import { mapActions } from 'vuex';
+    import { mapGetters, mapActions } from 'vuex';
 
     export default {
         name: "Login",
+        computed: {
+            ...mapGetters({
+                isAuthenticated: 'auth/authenticated'
+            })
+        },
+        watch: {
+            isAuthenticated(newValue, oldValue) {
+                if(newValue)
+                    this.$navigateTo(this.$routes.Inventory);
+            }
+        },
         data() {
             return {
                 isLoggingIn: true,
@@ -35,14 +46,13 @@
             ...mapActions({
                 signIn: 'auth/signIn',
                 forgotPassword: 'auth/forgotPassword',
-                loadLocalStoredToken: 'auth/loadLocalStoredToken'
             }),
             async submit () {
                 if(this.isInvalid()) return;
                 this.submitting = true;
                 try {
                     await this.signIn(this.form);
-                    this.$navigateTo(this.$routes.Inventory);
+                    //this.$navigateTo(this.$routes.Inventory);
                 } catch (error) {
                     console.log(error);
                     this.alert("Las credenciales son incorrectas.");
@@ -65,7 +75,9 @@
         },
         mounted() {
             console.log('LOGIN mounted');
-            this.loadLocalStoredToken().then(() => this.$navigateTo(this.$routes.Inventory));
+            console.log('isAuthenticated =', this.isAuthenticated);
+            if(this.isAuthenticated)
+                this.$navigateTo(this.$routes.Inventory);
             /*
             login({
                 title: "Your login title",

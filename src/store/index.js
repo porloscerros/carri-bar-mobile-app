@@ -26,6 +26,7 @@ export default new Vuex.Store({
     },
     actions: {
         init ({ dispatch }) {
+            console.log('store actions init')
             dispatch('auth/loadLocalStoredToken', null, { root: true });
         },
         incrementLoading (context) {

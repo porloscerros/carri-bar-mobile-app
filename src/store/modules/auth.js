@@ -1,4 +1,5 @@
 import * as ApplicationSettings from "application-settings";
+import Vue from 'nativescript-vue';
 import axios from 'axios'
 axios.defaults.withCredentials = true;
 
@@ -38,15 +39,20 @@ export default {
     },
 
     actions: {
-        loadLocalStoredToken({ commit, dispatch }) {
+        loadLocalStoredToken({ commit, dispatch, state }) {
+            console.log('store.auth action loadLocalStoredToken')
+            let token = null;
             const storedState = ApplicationSettings.getString("token");
-            if(storedState) {
-                const token = JSON.parse(storedState);
+            console.log('storedState', storedState)
+            if(storedState) token = JSON.parse(storedState);
+            if(token) {
                 commit('SET_TOKEN', token);
+                console.log('state.token =', state.token)
                 dispatch('me');
                 return token;
             }
-            return false;
+            console.log('state.token =', state.token)
+            return null;
         },
         async signIn ({ commit, dispatch, rootGetters }, credentials) {
             // dispatch('incrementLoading', null, {root: true});
@@ -57,6 +63,8 @@ export default {
                 ApplicationSettings.setString("token", JSON.stringify(response.data));
                 return dispatch('me');
             } catch (error) {
+                console.error(error);
+                /*
                 let messageData = Object.create(null);
                 messageData.title = 'ocurrió un error en la solicitud!';
                 messageData.content = '';
@@ -75,12 +83,15 @@ export default {
                     messageData.title = 'sin respuesta del servidor!';
                 }
                 console.log(messageData.title, messageData.content);
-                return Promise.reject(new Error(error.response.status));
+                */
+                return Promise.reject(new Error(error.response));
             }
             // dispatch('decrementLoading', null, {root: true});
         },
-        async signOut ({ dispatch }) {
-            await axios.post('/logout');
+        async signOut ({ dispatch, commit }) {
+            console.log('store.auth signOut')
+            await axios.post('/api/logout');
+            commit('SET_TOKEN', null);
             ApplicationSettings.remove("token");
             return dispatch('me');
         },
@@ -95,6 +106,7 @@ export default {
                 console.log(error);
                 commit('SET_AUTHENTICATED', false);
                 commit('SET_USER', null);
+                commit('SET_TOKEN', null);
             })
             // dispatch('decrementLoading', null, {root: true});
         },

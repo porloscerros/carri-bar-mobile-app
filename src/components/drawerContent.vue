@@ -13,6 +13,7 @@
                             :key="i"
                     />
                     <Button class="drawer-close-button" @tap="closeDrawer()">Close Drawer</Button>
+                    <Button class="drawer-logout" @tap="logout">Logout</Button>
                 </StackLayout>
             </ScrollView>
         </GridLayout>
@@ -21,7 +22,7 @@
 
 <script>
     import sideDrawer from '~/mixins/sideDrawer';
-    import { mapGetters } from 'vuex';
+    import { mapGetters, mapActions } from 'vuex';
 
     export default {
         name: "drawerContent",
@@ -30,7 +31,18 @@
             ...mapGetters({
                 appName: 'appName',
                 user: 'auth/user',
+                isAuthenticated: 'auth/authenticated',
             })
+        },
+        watch: {
+            isAuthenticated(newValue, oldValue) {
+                console.log('Drawer Content watcher');
+                console.log('isAuthenticated =', newValue);
+                if(!newValue) {
+                    this.$navigateTo(this.$routes.Login);
+                    this.closeDrawer()
+                }
+            }
         },
         data () {
             return {
@@ -40,14 +52,20 @@
                     { name: 'Inventario', component: this.$routes.Inventory },
                     { name: 'Recetas', component: this.$routes.Recipes },
                     { name: 'Login', component: this.$routes.Login },
-                ]
+                ],
             }
         },
         methods: {
+            ...mapActions({
+                signOut: 'auth/signOut',
+            }),
             goToPage (pageComponent) {
                 this.$navigateTo(pageComponent)
                 this.closeDrawer()
-            }
+            },
+            logout (e) {
+                this.signOut();
+            },
         }
     }
 </script>

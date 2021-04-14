@@ -2,11 +2,11 @@
     <Page>
         <ActionBar>
             <GridLayout width="100%" columns="auto, *">
-                <Label :text="appName" @tap="openDrawer()" col="0"/>
+                <Label text="MENU" @tap="openDrawer()" col="0"/>
                 <Label class="title" text="Inventario"  col="1"/>
             </GridLayout>
         </ActionBar>
-
+        
         <ListView ~mainContent for="item in listOfItems">
             <v-template>
                 <GridLayout columns="*, *, *">
@@ -24,19 +24,18 @@
 </template>
 
 <script>
-    import { mapGetters, mapActions } from 'vuex';
     import sideDrawer from '~/mixins/sideDrawer';
-    import { apiFactory } from "../api/apiFactory";
-    const inventoriesApi = apiFactory.get('inventories');
+    //import CardInventory from '../components/CardInventory';
+    //import { Fab } from '@nstudio/nativescript-floatingactionbutton';
+    //import { apiFactory } from "../api/apiFactory";
+    //const inventoriesApi = apiFactory.get('inventories');
 
     export default {
         name: "Inventory",
         mixins: [ sideDrawer ],
-        computed: {
-            ...mapGetters({
-                appName: 'appName',
-                user: 'auth/user',
-            })
+        components: {
+            //CardInventory,
+            //Fab,
         },
         data () {
             return {
@@ -48,14 +47,20 @@
             async fetchItems () {
                 this.loading = true;
                 try {
-                    const { data } = await inventoriesApi.get();
-                    this.listOfItems = data;
+                    //const { data } = await inventoriesApi.get();
+                    const { data } = await this.$http.get(`/v1/inventories`);
+                    if(data)
+                        this.listOfItems = data;
                 } catch(error) {
                     console.log(error);
                 }
                 this.loading = false;
             },
             onItemTap(item) {
+                console.log(item);
+                // this.$navigateTo(TypeList, {props: {service:service, location:this.location}})
+            },
+            add(item) {
                 console.log(item);
                 // this.$navigateTo(TypeList, {props: {service:service, location:this.location}})
             },
