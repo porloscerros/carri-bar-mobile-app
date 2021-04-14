@@ -24,6 +24,10 @@ Vue.registerElement(
   'RadSideDrawer',
   () => require('nativescript-ui-sidedrawer').RadSideDrawer
 );
+Vue.registerElement(
+    'Fab',
+    () => require('@nstudio/nativescript-floatingactionbutton').Fab
+);
 
 new Vue({
     beforeCreate() {

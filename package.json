@@ -8,6 +8,8 @@
   "dependencies": {
     "@nativescript/core": "^7.0.3",
     "@nativescript/theme": "^2.3.3",
+    "@nstudio/nativescript-cardview": "^2.0.1",
+    "@nstudio/nativescript-floatingactionbutton": "^3.0.4",
     "@vue/devtools": "^5.3.3",
     "axios": "^0.21.1",
     "nativescript-socketio": "^3.3.1",
