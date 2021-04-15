@@ -3,7 +3,7 @@
         <ActionBar>
             <GridLayout width="100%" columns="auto, *">
                 <Label text="MENU" @tap="openDrawer()" col="0"/>
-                <Label class="title" text="Ventas"  col="1"/>
+                <Label class="title" text="Recetas"  col="1"/>
             </GridLayout>
         </ActionBar>
 
@@ -11,9 +11,9 @@
             <list-view row="1"  for="item in list">
                 <v-template>
                     <GridLayout columns="*, *, *">
-                        <Button :text="`${item.date}`" col="0"
+                        <Button :text="`${item.name}`" col="0"
                                 @tap="onItemTap(item)"></Button>
-                        <Button :text="`$${item.total}`" col="1"
+                        <Button :text="`$${item.price}`" col="1"
                                 @tap="onItemTap(item)"></Button>
                     </GridLayout>
                 </v-template>
@@ -57,7 +57,7 @@
             async fetchItems () {
                 this.loading = true;
                 try {
-                    const { data } = await this.$http.get(`/v1/sales`);
+                    const { data } = await this.$http.get(`/v1/recipes`);
                     if(data)
                         this.list = data;
                 } catch(error) {
@@ -77,8 +77,8 @@
             },
             onItemTap(item) {
                 alert({
-                    title: item.date,
-                    message: `Total: $${item.total}`,
+                    title: item.name,
+                    message: `Total: $${item.price}`,
                     okButtonText: "OK"
                 })
                 // this.$navigateTo(TypeList, {props: {service:service, location:this.location}})
@@ -94,7 +94,7 @@
             },
         },
         mounted() {
-            console.log('Sales List mounted');
+            console.log('Recipes List mounted');
             this.fetchItems();
             // this.fetchMU();
         },

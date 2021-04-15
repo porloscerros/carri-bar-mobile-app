@@ -55,7 +55,7 @@
                     //this.$navigateTo(this.$routes.Inventory);
                 } catch (error) {
                     console.log(error);
-                    this.alert("Las credenciales son incorrectas.");
+                    alert(error);
                 }
                 this.submitting = false;
             },

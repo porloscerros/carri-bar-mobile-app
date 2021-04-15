@@ -13,8 +13,19 @@ export default new Vuex.Store({
     },
     state: {
         appName: 'La Bohemia Admin',
-        apiBaseUrl: 'http://192.168.43.189:8080/api', // http://la-bohemia.herokuapp.com/api
+        apiBaseUrl: 'https://la-bohemia.herokuapp.com/api', //http://192.168.43.189:8080/api',
         loadingCount: 0,
+    },
+    getters: {
+        isLoading: state => {
+            return state.loadingCount > 0;
+        },
+        appName: state => {
+            return state.appName;
+        },
+        apiBaseUrl: state => {
+            return state.apiBaseUrl;
+        },
     },
     mutations: {
         INCREMENT_LOADING (state) {
@@ -36,15 +47,4 @@ export default new Vuex.Store({
             context.commit('DECREMENT_LOADING');
         },
     },
-    getters: {
-        isLoading: state => {
-            return state.loadingCount > 0;
-        },
-        appName: state => {
-            return state.appName;
-        },
-        apiBaseUrl: state => {
-            return state.apiBaseUrl;
-        },
-    }
 });

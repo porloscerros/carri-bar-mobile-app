@@ -1,7 +1,5 @@
 import * as ApplicationSettings from "application-settings";
-import Vue from 'nativescript-vue';
-import axios from 'axios'
-axios.defaults.withCredentials = true;
+import axios from 'axios';
 
 export default {
     namespaced: true,
@@ -40,57 +38,47 @@ export default {
 
     actions: {
         loadLocalStoredToken({ commit, dispatch, state }) {
-            console.log('store.auth action loadLocalStoredToken')
+            console.log('store.auth action loadLocalStoredToken');
             let token = null;
             const storedState = ApplicationSettings.getString("token");
-            console.log('storedState', storedState)
+            console.log('local storedState', storedState)
             if(storedState) token = JSON.parse(storedState);
             if(token) {
                 commit('SET_TOKEN', token);
-                console.log('state.token =', state.token)
                 dispatch('me');
                 return token;
             }
-            console.log('state.token =', state.token)
             return null;
         },
         async signIn ({ commit, dispatch, rootGetters }, credentials) {
             // dispatch('incrementLoading', null, {root: true});
             try {
                 let url = `${rootGetters.apiBaseUrl}/sanctum/token`;
-                let response = await axios.post(url, credentials);
+                let data = JSON.stringify(credentials);
+                const headers = {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                };
+                let response = await axios.post(url, data, {
+                    headers: headers
+                });
+                // let response = await axios.post(url, credentials);
+                console.log('store.auth signIn response.data', response.data)
                 commit('SET_TOKEN', response.data);
                 ApplicationSettings.setString("token", JSON.stringify(response.data));
                 return dispatch('me');
             } catch (error) {
-                console.error(error);
-                /*
-                let messageData = Object.create(null);
-                messageData.title = 'ocurrió un error en la solicitud!';
-                messageData.content = '';
-                if (error.response) {
-                    if(error.response.status === 401) {
-                        messageData.title = 'no autorizado';
-                    }
-                    if(error.response.status === 404) {
-                        messageData.title = 'dirección no encontrada!';
-                    }
-                    if(error.response.status === 422) {
-                        messageData.title = 'revisa los siguientes datos!';
-                        messageData.content = error.response.data.errors;
-                    }
-                } else if (error.request) {
-                    messageData.title = 'sin respuesta del servidor!';
-                }
-                console.log(messageData.title, messageData.content);
-                */
-                return Promise.reject(new Error(error.response));
+                console.error('store.auth signIn error', error);
+                console.error(error.response.data);
+                console.log(Object.keys(error.response))
+                //[data, status, statusText, headers, config, request]
+                return error;
             }
             // dispatch('decrementLoading', null, {root: true});
         },
         async signOut ({ dispatch, commit }) {
             console.log('store.auth signOut')
-            await axios.post('/api/logout');
+            await axios.post('/logout/');
             commit('SET_TOKEN', null);
             ApplicationSettings.remove("token");
             return dispatch('me');
@@ -100,10 +88,12 @@ export default {
             axios.defaults.headers.common['Authorization'] = `Bearer ${state.token}`;
             axios.defaults.headers.common['Accept'] = 'application/json';
             return axios.get(`${rootGetters.apiBaseUrl}/v1/users/me`).then((response) => {
+                console.log('store.auth signIn response', response.data.data)
                 commit('SET_AUTHENTICATED', true);
                 commit('SET_USER', response.data.data);
             }).catch((error) => {
-                console.log(error);
+                console.error('store.auth me error', error);
+                console.error(error.data);
                 commit('SET_AUTHENTICATED', false);
                 commit('SET_USER', null);
                 commit('SET_TOKEN', null);

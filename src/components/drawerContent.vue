@@ -51,7 +51,7 @@
                     { name: 'Home', component: this.$routes.Home },
                     { name: 'Inventario', component: this.$routes.Inventory },
                     { name: 'Recetas', component: this.$routes.Recipes },
-                    { name: 'Login', component: this.$routes.Login },
+                    { name: 'Ventas', component: this.$routes.SalesList },
                 ],
             }
         },

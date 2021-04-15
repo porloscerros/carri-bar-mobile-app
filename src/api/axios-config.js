@@ -3,7 +3,7 @@ import store from '../store';
 import Vue from 'nativescript-vue';
 
 
-let url = TNS_ENV !== 'production'? 'http://192.168.43.189:8080/api': 'http://la-bohemia.herokuapp.com/api';
+let url = 'https://la-bohemia.herokuapp.com/api';
 let apiVersion = `v1`;
 
 const configHandler = (config) => {
@@ -41,6 +41,7 @@ const errorHandler = (error) => {
 };
 
 export default {
+    version: `${apiVersion}`,
     endpoint: `${url}`,
 
     requestInterceptor: config => {

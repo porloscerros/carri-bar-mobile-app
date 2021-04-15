@@ -23,7 +23,6 @@
             <fab
                     @tap="add"
                     row="1"
-                    icon="res://ic_add_white"
                     rippleColor="#f1f1f1"
                     class="fab-button"
             ></fab>
