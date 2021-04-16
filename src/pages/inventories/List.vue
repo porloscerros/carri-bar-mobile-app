@@ -7,16 +7,27 @@
             </GridLayout>
         </ActionBar>
 
+        <StackLayout for="item in listOfItems" @touch="touchEventService.onTouch($event, item.id, item, _itemTapHandler, _longPressHandler)">
+            <!-- Your item content here, you can use the touch in anything, like list views and scroll views -->
+        </StackLayout>
+
         <grid-layout ~mainContent rows="auto, *">
             <list-view row="1"  for="item in listOfItems">
                 <v-template>
                     <GridLayout columns="*, *, *">
                         <Button :text="`${item.name}`" col="0"
-                                @tap="onItemTap(item)"></Button>
+                                @tap="onItemTap(item)"
+                                @doubleTap="onDoubleTap(item)"
+                                @longPress="onLongPress"
+                        ></Button>
                         <Button :text="`${item.quantity}`" col="1"
-                                @tap="onItemTap(item)"></Button>
+                                @tap="onItemTap(item)"
+                                @doubleTap="onDoubleTap(item)"
+                        ></Button>
                         <Button :text="`${item.measurement_unit.name}`" col="2"
-                                @tap="onItemTap(item)"></Button>
+                                @tap="onItemTap(item)"
+                                @doubleTap="onDoubleTap(item)"
+                        ></Button>
                     </GridLayout>
                 </v-template>
             </list-view>
@@ -34,6 +45,8 @@
     import sideDrawer from '~/mixins/sideDrawer';
     //import CardInventory from '../components/CardInventory';
     const dialogs = require('tns-core-modules/ui/dialogs');
+    import { GestureEventData } from '@nativescript/core/ui/gestures';
+    import { TouchGestureEventData } from '@nativescript/core/ui/gestures';
 
     export default {
         name: "Inventory",
@@ -90,6 +103,7 @@
                 this.loading = false;
             },
             onItemTap(item) {
+                console.log("Tap!");
                 alert({
                     title: item.name,
                     message: `Cantidad: ${item.quantity} ${item.measurement_unit.name}\nCosto: $${item.cost}\nCantidad Mínima: ${item.minimum_quantity} ${item.measurement_unit.name} \nCantidad Recomendada: ${item.recommended_quantity} ${item.measurement_unit.name}`,
@@ -97,6 +111,28 @@
                 })
                 // this.$navigateTo(TypeList, {props: {service:service, location:this.location}})
             },
+            onDoubleTap() {
+                console.log("DoubleTap!");
+            },
+            onLongPress() {
+                console.log("longPress!");
+            },
+            onTouch(event) {
+                console.log("Touch!");
+                console.log(event);
+
+            },
+            // itemTapHandler(): (item: any) => any {
+            //     return (item) => {
+            //         return this.itemTap(item);
+            //     };
+            // },
+            //
+            // longPressHandler(): (item: any) => any {
+            //     return (item) => {
+            //         return this.longPress(item);
+            //     };
+            // },
             add() {
                 // this.$navigateTo(TypeList, {props: {service:service, location:this.location}})
                 prompt({
