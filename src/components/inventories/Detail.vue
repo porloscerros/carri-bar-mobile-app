@@ -34,8 +34,6 @@
 </template>
 
 <script>
-    import Edit from "./Edit";
-
     export default {
         props: ["item"],
 
@@ -47,7 +45,7 @@
 
         methods: {
             onEditButtonTap() {
-                this.$navigateTo(Edit, {
+                this.$navigateTo(this.$routes.InventoryEdit, {
                     transition: "slideTop",
                     backstackVisible: false,
                     props: {item: this.itemData}
