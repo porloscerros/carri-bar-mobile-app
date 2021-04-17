@@ -46,6 +46,8 @@ export default {
 
     requestInterceptor: config => {
         config.headers.Authorization = `Bearer ${store.getters['auth/token']}`;
+        config.headers.Accept = 'application/json';
+        config.headers['Content-Type'] = 'application/json';
         return config;
     },
     responseInterceptor: response => {

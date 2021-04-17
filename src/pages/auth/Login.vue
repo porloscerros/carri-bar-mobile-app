@@ -26,7 +26,7 @@
         watch: {
             isAuthenticated(newValue, oldValue) {
                 if(newValue)
-                    this.$navigateTo(this.$routes.Inventory);
+                    this.$navigateTo(this.$routes.InventoryList);
             }
         },
         data() {

@@ -6,6 +6,10 @@ import axiosConfig from './api/axios-config';
 import sideDrawer from '~/components/sideDrawer';
 import drawerContent from '~/components/drawerContent';
 
+import { mapGetters } from 'vuex';
+import RadListView from 'nativescript-ui-listview/vue';
+
+Vue.use(RadListView);
 
 if(TNS_ENV !== 'production') {
     Vue.use(VueDevtools);
@@ -30,6 +34,21 @@ Vue.registerElement(
 );
 
 new Vue({
+    computed: {
+        ...mapGetters({
+            isAuthenticated: 'auth/authenticated',
+        })
+    },
+    watch: {
+        isAuthenticated(newValue, oldValue) {
+            console.log('Vue instance watcher');
+            console.log('isAuthenticated =', newValue);
+            if(!newValue) {
+                this.$navigateTo(this.$routes.Login);
+                this.closeDrawer()
+            }
+        }
+    },
     beforeCreate() {
         console.log('Vue instance beforeCreate')
     },
@@ -39,6 +58,8 @@ new Vue({
     mounted() {
         console.log('Vue instance mounted')
         //console.log(this.$http.defaults)
+        if(!this.isAuthenticated)
+            this.$navigateTo(this.$routes.Login);
     },
     store,
     render (h) {
@@ -46,7 +67,7 @@ new Vue({
             sideDrawer,
             [
                 h(drawerContent, { slot: 'drawerContent' }),
-                h(routes.Inventory, { slot: 'mainContent' })
+                h(routes.InventoryList, { slot: 'mainContent' })
             ]
         )
     }

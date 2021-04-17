@@ -34,24 +34,25 @@
                 isAuthenticated: 'auth/authenticated',
             })
         },
-        watch: {
-            isAuthenticated(newValue, oldValue) {
-                console.log('Drawer Content watcher');
-                console.log('isAuthenticated =', newValue);
-                if(!newValue) {
-                    this.$navigateTo(this.$routes.Login);
-                    this.closeDrawer()
-                }
-            }
-        },
+        // watch: {
+        //     isAuthenticated(newValue, oldValue) {
+        //         console.log('Drawer Content watcher');
+        //         console.log('isAuthenticated =', newValue);
+        //         if(!newValue) {
+        //             this.$navigateTo(this.$routes.Login);
+        //             this.closeDrawer()
+        //         }
+        //     }
+        // },
         data () {
             return {
                 // define our pages, making sure the component matches that defined in /app/router/index.js
                 pages: [
                     { name: 'Home', component: this.$routes.Home },
-                    { name: 'Inventario', component: this.$routes.Inventory },
+                    { name: 'Inventario', component: this.$routes.InventoryList },
                     { name: 'Recetas', component: this.$routes.Recipes },
-                    { name: 'Ventas', component: this.$routes.SalesList },
+                    { name: 'Ventas', component: this.$routes.Sales },
+                    { name: 'Login', component: this.$routes.Login },
                 ],
             }
         },
@@ -66,7 +67,13 @@
             logout (e) {
                 this.signOut();
             },
-        }
+        },
+        mounted() {
+            console.log('Drawer Content mounted');
+            console.log('isAuthenticated =', this.isAuthenticated);
+            // if(!this.isAuthenticated)
+            //     this.$navigateTo(this.$routes.Login);
+        },
     }
 </script>
 
