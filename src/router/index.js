@@ -1,21 +1,19 @@
 import Home from '~/pages/Home'
-import Inventory from '~/pages/inventories/List'
-import InventoryCreate from '~/pages/inventories/Create'
 import Recipes from '~/pages/recipes/List'
 import Sales from '~/pages/sales/List'
 import Login from '~/pages/auth/Login'
-import Cars from '~/components/cars/App'
 import InventoryList from '~/components/inventories/List'
+import InventoryDetails from '~/components/inventories/Detail'
+import InventoryEdit from '~/components/inventories/Edit'
 
 const routes = {
     Home,
-    // Inventory,
-    InventoryCreate,
+    InventoryList,
+    InventoryDetails,
+    InventoryEdit,
     Recipes,
     Sales,
     Login,
-    Cars,
-    InventoryList,
 };
 
 export default routes

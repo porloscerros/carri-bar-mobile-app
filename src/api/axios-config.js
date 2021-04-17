@@ -55,8 +55,8 @@ export default {
     },
 
     init() {
-        console.log('axios-config init')
-        console.log('store.getters[auth/token]',store.getters['auth/token'])
+        console.log('axios-config init');
+        console.log('store.getters[auth/token]', store.getters['auth/token']);
 
         Vue.prototype.$http = axios.create({ baseURL: this.endpoint });
         Vue.prototype.$http.interceptors.request.use(this.requestInterceptor);

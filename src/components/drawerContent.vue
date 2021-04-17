@@ -3,14 +3,15 @@
         <GridLayout rows="auto, *" width="100%">
             <StackLayout class="headerContent">
                 <Label class="drawer-header" :text="user? user.name: 'desconocido'"/>
+                <Label class="drawer-header-username" :text="user? `@${user.username}`: '@'"/>
             </StackLayout>
             <ScrollView row="1">
                 <StackLayout class="drawerMenuContent">
                     <Label class="drawer-item"
-                            v-for="(page, i) in pages"
-                            @tap="goToPage(page.component)"
-                            :text="page.name"
-                            :key="i"
+                           v-for="(page, i) in pages"
+                           @tap="goToPage(page.component)"
+                           :text="page.name"
+                           :key="i"
                     />
                     <Button class="drawer-close-button" @tap="closeDrawer()">Close Drawer</Button>
                     <Button class="drawer-logout" @tap="logout">Logout</Button>
@@ -78,35 +79,38 @@
 </script>
 
 <style scoped>
-.title {
-  text-align: left;
-  padding-left: 16;
-}
+    .title {
+        text-align: left;
+        padding-left: 16;
+    }
 
-.message {
-  vertical-align: center;
-  text-align: center;
-  font-size: 20;
-  color: #333333;
-}
-.drawer-close-button {
-  margin-top: 20;
-  padding: 10 10 10 10;
-  background-color: #53ba82;
-  color: #ffffff;
-}
+    .message {
+        vertical-align: center;
+        text-align: center;
+        font-size: 20;
+        color: #333333;
+    }
+    .drawer-close-button {
+        margin-top: 20;
+        padding: 10 10 10 10;
+        background-color: #53ba82;
+        color: #ffffff;
+    }
 
-.drawer-header {
-  padding: 50 16 16 16;
-  margin-bottom: 16;
-  background-color: #333333;
-  color: #ffffff;
-  font-size: 24;
-}
+    .headerContent {
+        padding: 50 16 16 16;
+        margin-bottom: 16;
+        background-color: #333333;
+        color: #ffffff;
+        font-size: 18;
+    }
+    .drawer-header-username {
+        font-size: 14;
+    }
 
-.drawer-item {
-  padding: 8 16;
-  color: #333333;
-  font-size: 16;
-}
+    .drawer-item {
+        padding: 8 16;
+        color: #333333;
+        font-size: 18;
+    }
 </style>
