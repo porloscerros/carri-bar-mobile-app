@@ -1,35 +1,33 @@
 <template>
     <Page>
         <ActionBar>
-            <!-- HACK - we should remove the navigation button -->
-            <NavigationButton visibility="collapsed"/>
-            <Label horizontalAlignment="center" :text="`Editar ${form.name}`"/>
-            <ActionItem @tap="onCancelButtonTap" ios.position="left">
-                <Label text="Cancelar" verticalAlignment="center"/>
-            </ActionItem>
-            <ActionItem ios.position="right">
-                <Label :isEnabled="isModelValid" :isUserInteractionEnabled="isModelValid" @tap="onDoneButtonTap"
-                       text="Done"
-                       verticalAlignment="center"/>
-            </ActionItem>
+            <NavigationButton @tap="onCancelButtonTap" android.systemIcon="ic_delete"/>
+
+            <Label horizontalAlignment="center" :text="`Editar Inventario`"/>
+
+            <ActionItem :isEnabled="isModelValid" :isUserInteractionEnabled="isModelValid" @tap="onDoneButtonTap"
+                        ios.systemIcon="16" ios.position="right"
+                        android.systemIcon="ic_delete"
+                        android.position="actionBar"></ActionItem>
+
         </ActionBar>
 
         <GridLayout>
             <ScrollView>
                 <StackLayout class="item-list">
-                    <Label class="item-list-odd" text="Nombre"/>
+                    <Label class="item-list-odd" text="Nombre:"/>
                     <TextField v-model="form.name" :class="{ 'item-list-even': true, 'placeholder-error': !form.name }" :text="form.name"
                                hint="El nombre es requerido" height="50"/>
 
-                    <Label class="item-list-odd" text="Costo"/>
+                    <Label class="item-list-odd" text="Costo:"/>
                     <TextField v-model="form.cost" :text="form.cost" keyboardType="number" height="50" />
 
-                    <Label class="item-list-odd" text="Cantidad Actual"/>
+                    <Label class="item-list-odd" text="Cantidad Actual:"/>
                     <TextField v-model="form.quantity" :text="form.quantity" keyboardType="number" height="50" />
 
 
                     <Selector v-if="measurement_units.length"
-                              type="Unidad de Medida"
+                              type="Unidad de Medida:"
                               :items="measurement_units"
                               :value="form.measurement_unit_id"
                               @select="onMUSelected"
@@ -57,7 +55,7 @@
             return {
                 isUpdating: false,
                 form: {
-                    id: this.item.id,
+                    id: this.item? this.item.id: null,
                     name: this.item.name,
                     cost: this.item.cost,
                     quantity: this.item.quantity,
@@ -78,18 +76,19 @@
         },
         methods: {
             onCancelButtonTap() {
-                this.$navigateBack();
+                this.$navigateTo(this.$routes.InventoryList);
+                // this.$navigateBack();
             },
             onDoneButtonTap() {
                 console.log(this.form)
+                this.submitForm();
+                return;
                 /* ***********************************************************
                 * By design this app is set up to work with read-only sample data.
                 * Follow the steps in the "Firebase database setup" section in app/readme.md file
                 * and uncomment the code block below to make it editable.
                 *************************************************************/
 
-                this.submitForm();
-                return;
                 let queue = Promise.resolve();
                 this.isUpdating = true;
 
@@ -112,25 +111,6 @@
 
                         alert({ title: "Oops!", message: errorMessage, okButtonText: "Ok" });
                     });
-
-                /* ***********************************************************
-                * Comment out the code block below if you made the app editable.
-                *************************************************************/
-                // alert({
-                //     title: "Read-Only Template!",
-                //     message: `Check out the "Firebase database setup" section in the readme file to make it editable.`,
-                //     okButtonText: "Ok"
-                // }).then(() => {
-                //     this.$navigateTo(List, {
-                //         animated: true,
-                //         clearHistory: true,
-                //         transition: {
-                //             name: "slideBottom",
-                //             duration: 200,
-                //             curve: "ease"
-                //         }
-                //     });
-                // });
             },
             async submitForm () {
                 this.loading = true;
@@ -175,64 +155,10 @@
 </script>
 
 <style lang="scss">
-    @import '@nativescript/theme/scss/variables/blue';
-
-    // Custom styles
     .item-list {
-
-        &-even,
-        &-odd {
-            padding: 10 15;
-            margin: 0;
-            border-bottom-width: const(border-width);
-            @include colorize($border-color: background-alt-20);
-        }
-
-        &-odd {
-            @include colorize(
-                    $background-color: background-alt-10,
-                    $color: secondary
-            );
-        }
-
-        &__value {
-            width: 65;
-            text-align: right;
-            @include colorize($contrasted-color: complementary background 30% 10%);
-        }
-
-        TextField.placeholder-error {
-            @include colorize($placeholder-color: error);
-        }
-
-        Slider {
-            @include colorize(
-                    $contrasted-background-color: complementary background 20% 0%,
-                    $contrasted-color: complementary background 20% 0%
-            );
-        }
-    }
-
-    .thumb {
-
-        background-size: cover;
-        background-repeat: no-repeat;
-        font-size: 25;
-        font-weight: bold;
-
-        &__add {
-            background-color: transparent;
-            border-radius: const(border-radius-sm);
-            border-width: const(border-width);
-            @include colorize(
-                    $border-color: background-alt-20,
-                    $color: background-alt-20
-            );
-        }
-
-        &__remove {
-            background-color: rgba(grey, 0.5);
-            @include colorize($color: background);
+        TextField {
+            text-align: center;
+            font-size: 16;
         }
     }
 </style>
