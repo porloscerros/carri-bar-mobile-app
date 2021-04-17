@@ -1,19 +1,18 @@
-import VueDevtools from 'nativescript-vue-devtools';
 import Vue from 'nativescript-vue';
 import routes from '~/router';
 import store from '~/store/index';
 import axiosConfig from './api/axios-config';
 import sideDrawer from '~/components/sideDrawer';
 import drawerContent from '~/components/drawerContent';
-
 import { mapGetters } from 'vuex';
-import RadListView from 'nativescript-ui-listview/vue';
+import {TNSFontIcon, fonticon} from 'nativescript-fonticon';
 
-Vue.use(RadListView);
-
-if(TNS_ENV !== 'production') {
-    Vue.use(VueDevtools);
-}
+TNSFontIcon.debug = true;
+TNSFontIcon.paths = {
+    'fa': './assets/css/fontawesome.min.css',
+};
+TNSFontIcon.loadCss();
+Vue.filter('fonticon', fonticon);
 
 store.dispatch("init");
 axiosConfig.init();
@@ -57,7 +56,6 @@ new Vue({
     },
     mounted() {
         console.log('Vue instance mounted')
-        //console.log(this.$http.defaults)
         if(!this.isAuthenticated)
             this.$navigateTo(this.$routes.Login);
     },

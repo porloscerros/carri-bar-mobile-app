@@ -1,14 +1,13 @@
 <template>
     <Page>
         <ActionBar>
-            <NavigationButton @tap="onCancelButtonTap" android.systemIcon="ic_delete"/>
+            <GridLayout width="100%" columns="auto, *">
+                <Label col="0" @tap="onCancelButtonTap" class="fa cancel" :text="'fa-times' | fonticon"/>
+                <Label col="1" class="title" text="Editar Inventario"/>
+                <Label col="2" @tap="onDoneButtonTap" class="fa confirm" :text="'fa-check' | fonticon" />
+            </GridLayout>
 
-            <Label horizontalAlignment="center" :text="`Editar Inventario`"/>
 
-            <ActionItem :isEnabled="isModelValid" :isUserInteractionEnabled="isModelValid" @tap="onDoneButtonTap"
-                        ios.systemIcon="16" ios.position="right"
-                        android.systemIcon="ic_delete"
-                        android.position="actionBar"></ActionItem>
 
         </ActionBar>
 
@@ -160,5 +159,11 @@
             text-align: center;
             font-size: 16;
         }
+    }
+    .cancel {
+        color: #ff253a;
+    }
+    .confirm {
+        color: #4eff31;
     }
 </style>

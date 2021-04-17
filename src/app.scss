@@ -7,3 +7,23 @@
 
 // Global SCSS styling
 // @see https://docs.nativescript.org/ui/styling
+
+
+// Custom styles
+
+.main-content {
+  font-size: 18;
+  font-family: "Roboto", "Roboto-Regular";
+}
+
+.fab-button {
+  height: 70;
+  margin: 15;
+  background-color: #ff4081;
+  horizontal-align: right;
+  vertical-align: bottom;
+}
+
+.fa {
+  font-family: "FontAwesome", 'fa-solid-900';
+}

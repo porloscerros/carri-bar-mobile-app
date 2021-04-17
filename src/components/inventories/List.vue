@@ -49,7 +49,6 @@
                 this.loading = true;
                 try {
                     const { data } = await this.$http.get(`/v1/inventories`);
-                    console.log(data)
                     if(data)
                         this.items = data;
                 } catch(error) {
@@ -59,7 +58,6 @@
             },
             onCreate() {
                 this.$navigateTo(this.$routes.InventoryCreate);
-                // this.$navigateTo(CreatePage)
             },
         },
         mounted() {
@@ -70,13 +68,13 @@
 </script>
 
 <style lang="scss" scoped>
-.red {
-    color: #ff4081;
-}
-.blue {
-    color: #4758ff;
-}
-.green {
-    color: #4eff31;
-}
+    .red {
+        color: #ff4081;
+    }
+    .blue {
+        color: #4758ff;
+    }
+    .green {
+        color: #4eff31;
+    }
 </style>

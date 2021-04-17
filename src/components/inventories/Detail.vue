@@ -42,7 +42,6 @@
                 return this.item || {};
             }
         },
-
         methods: {
             onEditButtonTap() {
                 this.$navigateTo(this.$routes.InventoryEdit, {

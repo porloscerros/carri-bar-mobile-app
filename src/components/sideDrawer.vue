@@ -19,8 +19,5 @@
 </script>
 
 <style scoped>
-    .main-content {
-        font-size: 18;
-        font-family: "Roboto", "Roboto-Regular";
-    }
+
 </style>
