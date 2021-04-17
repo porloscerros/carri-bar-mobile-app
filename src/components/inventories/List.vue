@@ -7,42 +7,31 @@
             </GridLayout>
         </ActionBar>
 
-        <RadListView ~mainContent @itemTap="onItemTap" class="items-list" for="item in items" v-if="!isLoading">
-            <ListViewLinearLayout scrollDirection="Vertical" v-tkListViewLayout/>
-            <v-template>
-                <StackLayout class="items-list__item">
-                    <GridLayout class="items-list__item-content" columns="*, *" rows="*, *" height="120">
-
-                        <Label :text="item.name" class="items-list__item-name font-weight-bold"/>
-
-                        <Label class="m-r-5" col="1" horizontalAlignment="right">
-                            <FormattedString ios.fontFamily="system">
-                                <Span text="Cantidad: "/>
-                                <Span :text="item.quantity"/>
-                            </FormattedString>
-                        </Label>
-                        <Label class="m-r-5" row="2" col="1" horizontalAlignment="right">
-                            <FormattedString ios.fontFamily="system">
-                                <Span text="Costo: "/>
-                                <Span text.decode="&dollar;"/>
-                                <Span :text="item.cost"/>
-                            </FormattedString>
-                        </Label>
-
-                    </GridLayout>
-                </StackLayout>
-            </v-template>
-        </RadListView>
-        <ActivityIndicator :busy="isLoading" v-else/>
+        <grid-layout ~mainContent rows="auto, *">
+            <list-view row="1"  for="item in items">
+                <v-template>
+                    <Card :item="item"></Card>
+                </v-template>
+            </list-view>
+            <fab
+                    @tap="onCreate"
+                    row="1"
+                    rippleColor="#f1f1f1"
+                    class="fab-button"
+            ></fab>
+        </grid-layout>
     </Page>
 </template>
 
 <script>
     import sideDrawer from '~/mixins/sideDrawer';
-    import Details from "./Details";
+    import Card from "./ListItemCard";
 
     export default {
         mixins: [ sideDrawer ],
+        components: {
+            Card,
+        },
         computed: {
             isLoading() {
                 return !this.items.length;
@@ -60,6 +49,7 @@
                 this.loading = true;
                 try {
                     const { data } = await this.$http.get(`/v1/inventories`);
+                    console.log(data)
                     if(data)
                         this.items = data;
                 } catch(error) {
@@ -67,10 +57,10 @@
                 }
                 this.loading = false;
             },
-            onItemTap(args) {
-                this.$emit("select", args.item);
-                this.$navigateTo(Details, {props: {item: args.item}});
-            }
+            onCreate() {
+                this.$navigateTo(this.$routes.InventoryCreate);
+                // this.$navigateTo(CreatePage)
+            },
         },
         mounted() {
             console.log('Inventory List mounted');
@@ -80,23 +70,13 @@
 </script>
 
 <style lang="scss" scoped>
-    @import '@nativescript/theme/scss/variables/blue';
-
-    // Custom styles
-    .items-list {
-        &__item {
-            padding: 0 0 8 0;
-            @include colorize($background-color: background-alt-10);
-
-            &-content {
-                padding: 8 15 4 15;
-                @include colorize($background-color: background);
-            }
-
-            &-name,
-            &-icon {
-                @include colorize($contrasted-color: complementary background 30% 0%);
-            }
-        }
-    }
+.red {
+    color: #ff4081;
+}
+.blue {
+    color: #4758ff;
+}
+.green {
+    color: #4eff31;
+}
 </style>
