@@ -28,14 +28,20 @@
                 pickerObjects: [],
                 pickerTitle: "Selecciona",
                 title: "Value APIs",
-                selected: {}
+                selected: {
+                    id: null,
+                    name: ''
+                }
             };
         },
         methods: {
             onPicked(event) {
+                if (!this.$refs.apiPicker)  return;
                 let picker = this.$refs.apiPicker.nativeView;
-                this.selected = this.getOptionById(picker.selectedValue);
-                this.emitChange()
+                let item = this.getOptionById(picker.selectedValue);
+                if (item) {
+                    this.selected = item;
+                }
             },
             getOptionById(id) {
                 return this.options.find(item => {
@@ -48,15 +54,16 @@
         },
         watch: {
             value(value) {
+                console.log('watch  value', value)
                 this.selected = this.getOptionById(value);
             },
-            // selected: {
-            //     handler(newValue) {
-            //         console.log("selected watcher:" + newValue.id + " modified")
-            //         console.log(newValue)
-            //     },
-            //     deep: true
-            // }
+            selected: {
+                handler(newValue) {
+                    console.log('watch  selected', newValue);
+                    this.emitChange();
+                },
+                deep: true
+            }
         },
         mounted() {
             console.log('SelectPicker mounted');

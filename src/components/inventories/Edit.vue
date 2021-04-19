@@ -44,14 +44,12 @@
 </template>
 
 <script>
-    import Selector from "./Selector";
     import SaveBtn from '~/components/buttons/SaveBtn'
     import CancelBtn from '~/components/buttons/CancelBtn'
     import SelectPicker from "../inputs/SelectPicker";
 
     export default {
         components: {
-            Selector,
             SelectPicker,
             SaveBtn,
             CancelBtn,
@@ -115,11 +113,10 @@
                 //     });
             },
             async submitForm () {
-                this.loading = true;
+                this.isUpdating = true;
                 try {
                     let data = JSON.stringify(this.form);
                     let response = await this.$http.put(`/v1/inventories/${this.form.id}`, data);
-                    // let response = await axios.post(url, credentials);
                     console.log('store.auth signIn response.data', response.data)
                 } catch(error) {
                     console.log(error);
@@ -131,7 +128,7 @@
                         console.log(error.response.data.errors)
                     }
                 }
-                this.loading = false;
+                this.isUpdating = false;
             },
             async fetchMU () {
                 console.log('Inventory Edit fetchMU');
@@ -164,7 +161,6 @@
             font-size: 16;
         }
     }
-
     .fa-check {
         color: green !important;
     }
