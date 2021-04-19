@@ -29,6 +29,12 @@
                                    :value="form.measurement_unit_id"
                                    @select="onMUSelected"
                     ></select-picker>
+
+                    <Label class="item-list-odd" text="Cantidad Recomendada:"/>
+                    <TextField v-model="form.recommended_quantity" :text="form.recommended_quantity" keyboardType="number" height="50" />
+
+                    <Label class="item-list-odd" text="Cantidad Mínima:"/>
+                    <TextField v-model="form.minimum_quantity" :text="form.minimum_quantity" keyboardType="number" height="50" />
                 </StackLayout>
             </ScrollView>
 

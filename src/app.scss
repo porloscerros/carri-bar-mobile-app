@@ -22,3 +22,17 @@
 .fas {
   font-family: "FontAwesome", 'fa-solid-900';
 }
+
+
+.item-template-label {
+  margin-left: 20;
+}
+
+PickerField.picker {
+  margin: 10;
+  height: 40;
+  color: #fff;
+  placeholder-color: #DDD;
+  background: #404040;
+  font-size: 18;
+}
