@@ -1,4 +1,15 @@
 <template>
+    <grid-layout ~mainContent rows="auto, *">
+        <list-view row="1"  for="item in items">
+            <v-template>
+                <Card :item="item"></Card>
+            </v-template>
+        </list-view>
+        <fab-btn
+                @tap="onCreate"
+                row="1"
+        ></fab-btn>
+    </grid-layout>
     <GridLayout android:class="modal-input -android"
                 ios:class="modal-input -ios"
                 rows="auto, *, auto"
@@ -63,69 +74,5 @@
 </script>
 
 <style lang="scss">
-    @import '@nativescript/theme/scss/variables/blue';
 
-    // Custom styles
-    .modal-input {
-        @include colorize(
-                $background-color: background-alt-10,
-                $color: text-color
-        );
-
-        &__list-item {
-            vertical-align: center;
-        }
-    }
-
-    .modal-input.-android {
-
-        &__header {
-            padding: 15;
-        }
-
-        &__list-item {
-            padding: 0 15 10 15;
-        }
-
-        &__list-icon {
-            margin-right: 15;
-            margin-top: 2;
-
-            &.selected {
-                @include colorize($color: complementary);
-            }
-        }
-
-        Button.-outline {
-            android-elevation: 0;
-            background-color: transparent;
-            border-color: transparent;
-            @include colorize($color: complementary);
-            font-size: 12;
-            padding-right: 0;
-            text-align: right;
-        }
-    }
-
-    .modal-input.-ios {
-        height: 100%;
-        padding-top: 20;
-
-        &__list {
-            border-top-width: const(border-width);
-            @include colorize($border-color: background-alt-20);
-
-            &-item {
-                border-bottom-width: const(border-width);
-                @include colorize(
-                        $background-color: background,
-                        $border-color: background-alt-20
-                );
-            }
-
-            &-check {
-                @include colorize($color: complementary);
-            }
-        }
-    }
 </style>

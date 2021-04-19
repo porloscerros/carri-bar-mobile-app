@@ -2,8 +2,8 @@
     <Page>
         <ActionBar>
             <GridLayout width="100%" columns="auto, *">
-                <Label text="MENU" @tap="openDrawer()" col="0"/>
-                <Label class="title" text="Inventario"  col="1"/>
+                <open-drawer-btn col="0" @tap="openDrawer()"></open-drawer-btn>
+                <Label col="1" class="title" text="Inventario" />
             </GridLayout>
         </ActionBar>
 
@@ -13,24 +13,26 @@
                     <Card :item="item"></Card>
                 </v-template>
             </list-view>
-            <fab
+            <fab-btn
                     @tap="onCreate"
                     row="1"
-                    rippleColor="#f1f1f1"
-                    class="fab-button"
-            ></fab>
+            ></fab-btn>
         </grid-layout>
     </Page>
 </template>
 
 <script>
     import sideDrawer from '~/mixins/sideDrawer';
+    import OpenDrawerBtn from "../buttons/OpenDrawerBtn";
     import Card from "./ListItemCard";
+    import FabBtn from "../buttons/FabBtn";
 
     export default {
         mixins: [ sideDrawer ],
         components: {
+            OpenDrawerBtn,
             Card,
+            FabBtn,
         },
         computed: {
             isLoading() {

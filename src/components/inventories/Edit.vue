@@ -2,13 +2,10 @@
     <Page>
         <ActionBar>
             <GridLayout width="100%" columns="auto, *">
-                <Label col="0" @tap="onCancelButtonTap" class="fa cancel" :text="'fa-times' | fonticon"/>
+                <cancel-btn col="0" @tap="onCancelButtonTap"></cancel-btn>
                 <Label col="1" class="title" text="Editar Inventario"/>
-                <Label col="2" @tap="onDoneButtonTap" class="fa confirm" :text="'fa-check' | fonticon" />
+                <save-btn col="2" @tap="onDoneButtonTap"></save-btn>
             </GridLayout>
-
-
-
         </ActionBar>
 
         <GridLayout>
@@ -24,14 +21,14 @@
                     <Label class="item-list-odd" text="Cantidad Actual:"/>
                     <TextField v-model="form.quantity" :text="form.quantity" keyboardType="number" height="50" />
 
-
-                    <Selector v-if="measurement_units.length"
-                              type="Unidad de Medida:"
-                              :items="measurement_units"
-                              :value="form.measurement_unit_id"
-                              @select="onMUSelected"
-                    />
-
+                    <Label class="item-list-odd" text="Unidad de Medida:"/>
+                    <select-picker v-if="measurement_units.length" class="text-center"
+                                   label="Unidad de Medida:"
+                                   hint="Click here"
+                                   :options="measurement_units"
+                                   :value="form.measurement_unit_id"
+                                   @select="onMUSelected"
+                    ></select-picker>
                 </StackLayout>
             </ScrollView>
 
@@ -41,13 +38,17 @@
 </template>
 
 <script>
-    import { alert } from "@nativescript/core";
-    import List from "./List";
     import Selector from "./Selector";
+    import SaveBtn from '~/components/buttons/SaveBtn'
+    import CancelBtn from '~/components/buttons/CancelBtn'
+    import SelectPicker from "../inputs/SelectPicker";
 
     export default {
         components: {
-            Selector
+            Selector,
+            SelectPicker,
+            SaveBtn,
+            CancelBtn,
         },
         props: ["item"],
         data() {
@@ -69,47 +70,43 @@
             isModelValid() {
                 return !!this.form.name && !!this.form.quantity;
             },
-            // form() {
-            //     return this.item || {};
-            // }
         },
         methods: {
             onCancelButtonTap() {
                 this.$navigateTo(this.$routes.InventoryList);
-                // this.$navigateBack();
             },
             onDoneButtonTap() {
                 console.log(this.form)
                 this.submitForm();
-                return;
+
                 /* ***********************************************************
                 * By design this app is set up to work with read-only sample data.
                 * Follow the steps in the "Firebase database setup" section in app/readme.md file
                 * and uncomment the code block below to make it editable.
                 *************************************************************/
 
-                let queue = Promise.resolve();
-                this.isUpdating = true;
-
-                queue.then(() => itemService.update(this.form))
-                    .then(() => {
-                        this.isUpdating = false;
-
-                    this.$navigateTo(List, {
-                        animated: true,
-                        clearHistory: true,
-                        transition: {
-                            name: "slideBottom",
-                            duration: 200,
-                            curve: "ease"
-                        }
-                    });
-                    })
-                    .catch((errorMessage) => {
-                        this.isUpdating = false;
-
-                        alert({ title: "Oops!", message: errorMessage, okButtonText: "Ok" });
-                    });
+                // let queue = Promise.resolve();
+                // this.isUpdating = true;
+                //
+                // queue.then(() => itemService.update(this.form))
+                //     .then(() => {
+                //         this.isUpdating = false;
+                //
+                //     this.$navigateTo(this.$routes.InventoryList, {
+                //         animated: true,
+                //         clearHistory: true,
+                //         transition: {
+                //             name: "slideBottom",
+                //             duration: 200,
+                //             curve: "ease"
+                //         }
+                //     });
+                //     })
+                //     .catch((errorMessage) => {
+                //         this.isUpdating = false;
+                //
+                //         alert({ title: "Oops!", message: errorMessage, okButtonText: "Ok" });
+                //     });
             },
             async submitForm () {
                 this.loading = true;
@@ -138,11 +135,12 @@
                     if(data)
                         this.measurement_units = data;
                 } catch(error) {
-                    console.log(error);
+                    console.error(error);
                 }
                 this.loading = false;
             },
             onMUSelected(value) {
+                console.log('onMUSelected',value);
                 this.form.measurement_unit_id = value;
             }
         },
@@ -160,10 +158,12 @@
             font-size: 16;
         }
     }
-    .cancel {
-        color: #ff253a;
+
+    .fa-check {
+        color: green !important;
     }
-    .confirm {
-        color: #4eff31;
+
+    fa-times {
+        border: 1px solid red;
     }
 </style>

@@ -1,7 +1,7 @@
 // NativeScript core theme
 // @see https://docs.nativescript.org/ui/theme
-@import '~@nativescript/theme/core';
-@import '~@nativescript/theme/default';
+@import "~@nativescript/theme/core";
+@import "~@nativescript/theme/default";
 
 // Override variables here
 
@@ -16,14 +16,9 @@
   font-family: "Roboto", "Roboto-Regular";
 }
 
-.fab-button {
-  height: 70;
-  margin: 15;
-  background-color: #ff4081;
-  horizontal-align: right;
-  vertical-align: bottom;
-}
-
 .fa {
+  font-family: "FontAwesome", 'fa-regular-400';
+}
+.fas {
   font-family: "FontAwesome", 'fa-solid-900';
 }

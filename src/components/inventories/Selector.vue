@@ -1,14 +1,14 @@
 <template>
     <GridLayout columns="*, auto" rows="*, *">
-        <Label :text="type.toUpperCase()" class="car-list-odd" col="0" colSpan="2" row="0"/>
-        <Label :text="selected.name" @tap="onSelectorTap" class="car-list-even" col="0" row="1"/>
-        <Label @tap="onSelectorTap" class="fas car-list-even" col="1" row="1" text.decode="&#xf054;"/>
+        <Label :text="label.toUpperCase()" col="0" colSpan="2" row="0"/>
+        <Label :text="selected.name" @tap="onSelectorTap" col="0" row="1"/>
+        <Label @tap="onSelectorTap" class="fas" col="1" row="1" text.decode="&#xf054;"/>
     </GridLayout>
 </template>
 
 <script>
     import * as constants from "~/shared/cars/constants";
-    import selectorModal from "./SelectorModal";
+    // import selectorModal from "./SelectorModal";
 
     export default {
         name: "Selector",
@@ -16,7 +16,7 @@
             prop: "text",
             event: "select"
         },
-        props: ["type", "label", "text", "items", "value"],
+        props: ["value", "options", "label", "text", ],
         data() {
             return {
                 selected: {
@@ -27,35 +27,39 @@
         },
         methods: {
             onSelectorTap() {
-                this.$showModal(selectorModal, {
-                    props: {
-                        title: `Selecciona ${this.type[0].toUpperCase() + this.type.substr(1)}`,
-                        items: this.items,
-                        selected: this.selected
-                    }
-                }).then(selected => {
-                    if (!selected) {
-                        return;
-                    }
-                    this.selected = selected;
-                    this.$emit("select", selected.id);
+                action("Your message", "Cancel button text", this.mapOptionsNames())
+                    .then(result => {
+                        console.log(result);
+                        // this.emitChange(result)
+                    });
+            },
+            getOptionById(id) {
+                return this.options.find(item => {
+                    return item.id === id;
                 });
-            }
+            },
+            getOptionNameById() {
+
+            },
+            mapOptionsNames() {
+                return this.options.map(item => {
+                    return item.name;
+                });
+            },
+            emitChange(e) {
+                this.$emit('select', e);
+            },
         },
         watch: {
-            text(value) {
-                this.selected = value;
+            value(value) {
+                this.selected = this.getOptionById(value);
             }
         },
         mounted() {
             console.log('Inventory Edit Selector mounted');
-            this.selected.id = this.value;
-            let item = this.items.find(item => {
-                console.log('Inventory Edit Selector mounted');
-                return item.id === this.value;
-            });
+            let item = this.getOptionById(this.value);
             if (item)
-                this.selected.name = item.name;
+                this.selected = item;
         },
     }
 </script>

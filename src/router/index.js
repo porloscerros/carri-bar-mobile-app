@@ -5,6 +5,7 @@ import Login from '~/pages/auth/Login'
 import InventoryList from '~/components/inventories/List'
 import InventoryDetail from '~/components/inventories/Detail'
 import InventoryEdit from '~/components/inventories/Edit'
+import TestPicker from '~/components/inputs/SelectPicker'
 
 const routes = {
     Home,
@@ -14,6 +15,7 @@ const routes = {
     Recipes,
     Sales,
     Login,
+    TestPicker,
 };
 
 export default routes

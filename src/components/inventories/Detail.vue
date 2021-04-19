@@ -1,11 +1,11 @@
 <template>
     <Page>
         <ActionBar>
-            <NavigationButton @tap="$navigateBack()" android.systemIcon="ic_menu_back"/>
-            <Label :text="itemData.name" horizontalAlignment="center"/>
-            <ActionItem @tap="onEditButtonTap" android.position="right" ios.position="right">
-                <Label text="Edit" verticalAlignment="center"/>
-            </ActionItem>
+            <GridLayout width="100%" columns="auto, *">
+                <nav-back col="0" @tap="$navigateBack()"></nav-back>
+                <Label col="1" class="title" :text="itemData.name"/>
+                <edit-btn col="2" @tap="onEditButtonTap"></edit-btn>
+            </GridLayout>
         </ActionBar>
 
         <ScrollView>
@@ -34,9 +34,14 @@
 </template>
 
 <script>
+    import NavBack from '~/components/buttons/NavBack';
+    import EditBtn from '~/components/buttons/EditBtn';
     export default {
         props: ["item"],
-
+        components: {
+            NavBack,
+            EditBtn
+        },
         computed: {
             itemData() {
                 return this.item || {};
@@ -53,3 +58,7 @@
         }
     };
 </script>
+
+<style lang="scss">
+
+</style>

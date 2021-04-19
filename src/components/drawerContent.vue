@@ -54,6 +54,7 @@
                     { name: 'Recetas', component: this.$routes.Recipes },
                     { name: 'Ventas', component: this.$routes.Sales },
                     { name: 'Login', component: this.$routes.Login },
+                    { name: 'TestPicker', component: this.$routes.TestPicker },
                 ],
             }
         },
