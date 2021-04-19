@@ -1,3 +1,4 @@
+require('./bootstrap');
 import Vue from 'nativescript-vue';
 import routes from '~/router';
 import store from '~/store/index';
@@ -5,30 +6,11 @@ import axiosConfig from './api/axios-config';
 import sideDrawer from '~/components/sideDrawer';
 import drawerContent from '~/components/drawerContent';
 import { mapGetters } from 'vuex';
-import {TNSFontIcon, fonticon} from 'nativescript-fonticon';
-import PickerField from "@nativescript/picker/vue";
-
-// fontawesome icons
-TNSFontIcon.debug = true;
-TNSFontIcon.paths = {
-    'fa': './assets/css/fontawesome.min.css',
-};
-TNSFontIcon.loadCss();
-Vue.filter('fonticon', fonticon);
-
-// Prints Vue logs when --env.production is *NOT* set while building
-Vue.config.silent = (TNS_ENV === 'production');
 
 store.dispatch("init");
 axiosConfig.init();
-
-
 // Set up routes as a prototype to use throuhout the app.
 Vue.prototype.$routes = routes;
-
-Vue.registerElement('RadSideDrawer', () => require('nativescript-ui-sidedrawer').RadSideDrawer);
-Vue.registerElement('Fab', () => require('@nstudio/nativescript-floatingactionbutton').Fab);
-Vue.use(PickerField);
 
 new Vue({
     computed: {
