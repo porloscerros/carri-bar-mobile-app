@@ -59,6 +59,7 @@
                     }
                 }
                 this.isUpdating = false;
+                this.$navigateTo(this.$routes.InventoryList);
             },
         },
     }
