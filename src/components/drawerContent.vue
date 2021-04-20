@@ -50,9 +50,9 @@
                 // define our pages, making sure the component matches that defined in /app/router/index.js
                 pages: [
                     { name: 'Home', component: this.$routes.Home },
+                    { name: 'Ventas', component: this.$routes.SaleList },
                     { name: 'Inventario', component: this.$routes.InventoryList },
                     { name: 'Recetas', component: this.$routes.Recipes },
-                    { name: 'Ventas', component: this.$routes.Sales },
                 ],
             }
         },
