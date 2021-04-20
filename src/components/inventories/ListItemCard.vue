@@ -1,9 +1,13 @@
 <template>
-    <GridLayout class="list-group-item" columns="auto, *, auto" rows="70">
+    <GridLayout class="list-group-item" columns="auto, *, auto" rows="70"
+                :class="{
+                    'red': item.quantity <= item.minimum_quantity,
+                    'yellow': item.quantity < item.recommended_quantity
+                }">
         <Label :text="item.name"
                @tap="onItemTap(item)"
                col="0" row="0"
-        />
+        ></Label>
         <Label :text="item.quantity" @touch="onTouch" col="1" horizontalAlignment="right"></Label>
         <Label :text="item.measurement_unit.name" @tap="onItemTap(item)" col="2" horizontalAlignment="left"></Label>
     </GridLayout>
@@ -45,5 +49,16 @@
 </script>
 
 <style scoped>
-
+    .red {
+        color: #ff4081;
+    }
+    .blue {
+        color: #4758ff;
+    }
+    .yellow {
+        color: #feff35;
+    }
+    .green {
+        color: #4eff31;
+    }
 </style>

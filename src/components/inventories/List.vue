@@ -70,13 +70,5 @@
 </script>
 
 <style lang="scss" scoped>
-    .red {
-        color: #ff4081;
-    }
-    .blue {
-        color: #4758ff;
-    }
-    .green {
-        color: #4eff31;
-    }
+
 </style>

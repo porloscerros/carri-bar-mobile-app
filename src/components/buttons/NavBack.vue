@@ -1,5 +1,5 @@
 <template>
-    <Label @tap="callback($event)" class="fa" :text="'fa-arrow-left' | fonticon" />
+    <Label @tap="callback($event)" class="fas" :text="'fa-arrow-left' | fonticon" />
 </template>
 
 <script>
