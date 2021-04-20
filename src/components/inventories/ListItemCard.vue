@@ -1,17 +1,14 @@
 <template>
-    <GridLayout class="list-group-item" columns="auto, *, auto" rows="70, 30">
+    <GridLayout @touch="onTouch($event, item)" class="list-group-item" columns="auto, *, auto" rows="70, 30">
         <Label :text="item.name"
-               @touch="onTouch($event, item)"
                col="0" row="0"
         ></Label>
         <Label :text="item.quantity"
-               @touch="onTouch($event, item)"
                col="1"  row="0"
                horizontalAlignment="right"
                :class="{ 'yellow': isUnderRecommended(item), 'red': isUnderMinimum(item)  }"
         ></Label>
         <Label :text="item.measurement_unit.name"
-               @touch="onTouch($event, item)"
                col="2"  row="0"
                horizontalAlignment="left"
                :class="{ 'yellow': isUnderRecommended(item), 'red': isUnderMinimum(item)  }"
