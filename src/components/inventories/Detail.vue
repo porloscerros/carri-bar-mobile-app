@@ -10,7 +10,7 @@
 
         <ScrollView>
             <StackLayout>
-                <GridLayout columns="auto,auto" row="2" rows="*, *, *, *, *, *">
+                <GridLayout columns="auto,auto" rows="*, *, *, *, *, *">
                     <Label class="p-l-15 p-b-10 m-r-20" text="Costo"/>
                     <Label class="p-b-10" col="1">
                         <FormattedString>

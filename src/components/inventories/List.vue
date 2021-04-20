@@ -8,7 +8,7 @@
         </ActionBar>
 
         <grid-layout ~mainContent rows="auto, *">
-            <list-view row="1"  for="item in items">
+            <list-view row="1" for="item in items" class="list-group">
                 <v-template>
                     <Card :item="item"></Card>
                 </v-template>

@@ -13,8 +13,8 @@
                            :text="page.name"
                            :key="i"
                     />
-                    <Button class="drawer-close-button" @tap="closeDrawer()">Close Drawer</Button>
-                    <Button class="drawer-logout" @tap="logout">Logout</Button>
+                    <Button class="drawer-close-button" @tap="closeDrawer()">Cerrar Menú</Button>
+                    <Button class="drawer-logout" @tap="logout">Salir</Button>
                 </StackLayout>
             </ScrollView>
         </GridLayout>
@@ -53,8 +53,6 @@
                     { name: 'Inventario', component: this.$routes.InventoryList },
                     { name: 'Recetas', component: this.$routes.Recipes },
                     { name: 'Ventas', component: this.$routes.Sales },
-                    { name: 'Login', component: this.$routes.Login },
-                    { name: 'TestPicker', component: this.$routes.TestPicker },
                 ],
             }
         },

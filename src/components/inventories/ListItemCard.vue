@@ -1,18 +1,13 @@
 <template>
-    <GridLayout columns="*, *, *">
-        <Button :text="`${item.name}`" col="0"
-                @touch="onTouch"
-        ></Button>
-        <Button :text="`${item.quantity}`" col="1"
-                @tap="onItemTap(item)"
-                @doubleTap="onDoubleTap(item)"
-                @longPress="onLongPress"
-        ></Button>
-        <Button :text="`${item.measurement_unit.name}`" col="2"
-                @tap="onItemTap(item)"
-                @doubleTap="onDoubleTap(item)"
-        ></Button>
+    <GridLayout class="list-group-item" columns="auto, *, auto" rows="70">
+        <Label :text="item.name"
+               @tap="onItemTap(item)"
+               col="0" row="0"
+        />
+        <Label :text="item.quantity" @touch="onTouch" col="1" horizontalAlignment="right"></Label>
+        <Label :text="item.measurement_unit.name" @tap="onItemTap(item)" col="2" horizontalAlignment="left"></Label>
     </GridLayout>
+
 </template>
 
 <script>

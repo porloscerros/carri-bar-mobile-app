@@ -52,7 +52,6 @@
                 this.submitting = true;
                 try {
                     await this.signIn(this.form);
-                    //this.$navigateTo(this.$routes.Inventory);
                 } catch (error) {
                     console.log(error);
                     alert(error);
@@ -77,7 +76,7 @@
             console.log('LOGIN mounted');
             console.log('isAuthenticated =', this.isAuthenticated);
             if(this.isAuthenticated)
-                this.$navigateTo(this.$routes.Inventory);
+                this.$navigateTo(this.$routes.InventoryList);
             /*
             login({
                 title: "Your login title",

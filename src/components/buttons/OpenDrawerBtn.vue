@@ -27,6 +27,9 @@
 
 <style scoped>
     .button {
-        background-color: #ff4081;
+        color: #ff4081;
+    }
+    .fas {
+        font-family: "FontAwesome", 'fa-solid-900';
     }
 </style>
