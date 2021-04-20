@@ -32,14 +32,15 @@
             onItemTap(item) {
                 this.$emit("tap", item);
                 this.$navigateTo(this.$routes.InventoryDetail, {
-                    props: { item: item, }
+                    props: { item: item, },
+                    animated: true,
+                    transition: 'fade'
                 })
             },
             onDoubleTap() {
                 console.log("DoubleTap!");
             },
             onLongPress(item) {
-                console.log("longPress!");
                 prompt({
                     title: 'Corregir Cantidad',
                     message: 'Ingresa la cantidad real del inventario:',
@@ -52,23 +53,17 @@
                     });
             },
             onTouch(event, item) {
-                console.log('Event Name:', event.eventName);
                 if(event.action === "down") {
                     this.start = new Date().getTime();
-                    console.log('this.start:', this.start)
                 }
                 if(event.action === "up") {
                     this.end = new Date().getTime();
-                    console.log('this.end:', this.end);
                     const duration = parseInt(this.end) - parseInt(this.start);
-                    console.log('duration:', duration)
-                    console.log('Custom Event', duration > 200? "longpress": "tap")
                     if(duration > 200)
                         this.onLongPress(item);
                     else
                         this.onItemTap(item);
                 }
-
             },
             isUnderMinimum(item) {
                 return item.quantity <= item.minimum_quantity;

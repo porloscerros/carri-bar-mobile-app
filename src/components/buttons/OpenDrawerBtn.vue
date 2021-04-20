@@ -28,6 +28,6 @@
 <style scoped>
     .fas {
         font-family: "FontAwesome", 'fa-solid-900';
-        color: #ff4081;
+        /*color: #ff4081;*/
     }
 </style>

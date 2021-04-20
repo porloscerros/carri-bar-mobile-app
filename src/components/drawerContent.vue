@@ -61,8 +61,11 @@
                 signOut: 'auth/signOut',
             }),
             goToPage (pageComponent) {
-                this.$navigateTo(pageComponent)
-                this.closeDrawer()
+                this.$navigateTo(pageComponent, {
+                    animated: true,
+                    transition: 'fade'
+                });
+                this.closeDrawer();
             },
             logout (e) {
                 this.signOut();

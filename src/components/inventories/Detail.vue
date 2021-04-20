@@ -50,9 +50,9 @@
         methods: {
             onEditButtonTap() {
                 this.$navigateTo(this.$routes.InventoryEdit, {
-                    transition: "slideTop",
-                    backstackVisible: false,
-                    props: {item: this.itemData}
+                    props: {item: this.itemData},
+                    animated: true,
+                    transition: 'fade'
                 });
             }
         }

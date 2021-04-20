@@ -35,7 +35,13 @@
         },
         methods: {
             onCancelButtonTap() {
-                this.$navigateTo(this.$routes.InventoryList);
+                this.navigateToList();
+            },
+            navigateToList() {
+                this.$navigateTo(this.$routes.InventoryList, {
+                    animated: true,
+                    transition: 'fade'
+                });
             },
             onDoneButtonTap() {
                 this.submitForm();
@@ -59,7 +65,7 @@
                     }
                 }
                 this.isUpdating = false;
-                this.$navigateTo(this.$routes.InventoryList);
+                this.navigateToList();
             },
         },
     }

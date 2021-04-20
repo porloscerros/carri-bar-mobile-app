@@ -59,7 +59,10 @@
                 this.loading = false;
             },
             onCreate() {
-                this.$navigateTo(this.$routes.InventoryCreate);
+                this.$navigateTo(this.$routes.InventoryCreate, {
+                    animated: true,
+                    transition: 'fade'
+                });
             },
         },
         mounted() {
