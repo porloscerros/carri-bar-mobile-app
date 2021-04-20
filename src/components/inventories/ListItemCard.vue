@@ -1,52 +1,76 @@
 <template>
-    <GridLayout class="list-group-item" columns="auto, *, auto" rows="70, 30"
-                :class="{ 'yellow': isUnderRecommended(item), 'red': isUnderMinimum(item)  }"
-    >
+    <GridLayout class="list-group-item" columns="auto, *, auto" rows="70, 30">
         <Label :text="item.name"
-               @tap="onItemTap(item)"
+               @touch="onTouch($event, item)"
                col="0" row="0"
         ></Label>
         <Label :text="item.quantity"
-               @touch="onTouch"
+               @touch="onTouch($event, item)"
                col="1"  row="0"
                horizontalAlignment="right"
+               :class="{ 'yellow': isUnderRecommended(item), 'red': isUnderMinimum(item)  }"
         ></Label>
         <Label :text="item.measurement_unit.name"
-               @tap="onItemTap(item)"
+               @touch="onTouch($event, item)"
                col="2"  row="0"
                horizontalAlignment="left"
+               :class="{ 'yellow': isUnderRecommended(item), 'red': isUnderMinimum(item)  }"
         ></Label>
     </GridLayout>
-
 </template>
 
 <script>
+    const dialogs = require('tns-core-modules/ui/dialogs');
+
     export default {
         name: "ListItemCard",
         props: ['item'],
+        data() {
+            return {
+                start: 0,
+                end: 0,
+            }
+        },
         methods: {
             onItemTap(item) {
-                console.log('card item tap')
-                console.log(item)
                 this.$emit("tap", item);
                 this.$navigateTo(this.$routes.InventoryDetail, {
-                    props: {
-                        item: item,
-                        startpoint: "startpoint Y",
-                        endpoint: "point x"
-                    }
+                    props: { item: item, }
                 })
             },
             onDoubleTap() {
                 console.log("DoubleTap!");
             },
-            onLongPress() {
+            onLongPress(item) {
                 console.log("longPress!");
+                prompt({
+                    title: 'Corregir Cantidad',
+                    message: 'Ingresa la cantidad real del inventario:',
+                    okButtonText: 'OK',
+                    cancelButtonText: 'Cancelar',
+                    inputType: dialogs.inputType.number
+                })
+                    .then(result => {
+                        console.log(`Dialog result: ${result.result}, text: ${result.text}`)
+                    });
             },
-            onTouch(event) {
-                console.log("onTouch!");
-                console.log('Name:', event.eventName)
-                console.log('Touch: x: ' + event.getX() + ' y: ' + event.getY());
+            onTouch(event, item) {
+                console.log('Event Name:', event.eventName);
+                if(event.action === "down") {
+                    this.start = new Date().getTime();
+                    console.log('this.start:', this.start)
+                }
+                if(event.action === "up") {
+                    this.end = new Date().getTime();
+                    console.log('this.end:', this.end);
+                    const duration = parseInt(this.end) - parseInt(this.start);
+                    console.log('duration:', duration)
+                    console.log('Custom Event', duration > 200? "longpress": "tap")
+                    if(duration > 200)
+                        this.onLongPress(item);
+                    else
+                        this.onItemTap(item);
+                }
 
             },
             isUnderMinimum(item) {
