@@ -25,7 +25,8 @@
 </script>
 
 <style scoped>
-    fa {
-        border: 1px solid blue;
+    .fas {
+        font-family: "FontAwesome", 'fa-solid-900';
+        color: #01ff00;
     }
 </style>

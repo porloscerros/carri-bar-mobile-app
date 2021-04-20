@@ -1,5 +1,5 @@
 <template>
-    <Label @tap="callback($event)" class="fas button" :text="'fa-bars' | fonticon"/>
+    <Label @tap="callback($event)" class="fas" :text="'fa-bars' | fonticon"/>
 </template>
 
 <script>
@@ -26,10 +26,8 @@
 </script>
 
 <style scoped>
-    .button {
-        color: #ff4081;
-    }
     .fas {
         font-family: "FontAwesome", 'fa-solid-900';
+        color: #ff4081;
     }
 </style>
