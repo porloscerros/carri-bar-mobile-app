@@ -23,9 +23,7 @@
 
             <ListView for="recipe in item.recipes">
                 <v-template>
-                    <GridLayout rows="*" columns="auto, *">
-                        <RecipeCard :item="recipe"></RecipeCard>
-                    </GridLayout>
+                    <RecipeCard :item="recipe"></RecipeCard>
                 </v-template>
             </ListView>
         </StackLayout>

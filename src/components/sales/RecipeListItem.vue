@@ -1,21 +1,19 @@
 <template>
-    <GridLayout @touch="onTouch($event, item)" columns="*, auto, auto" rows="70" class="list-group-item">
+    <FlexboxLayout justifyContent="space-between"
+                   @touch="onTouch($event, item)"
+                   separatorColor="#ff4081"
+    >
+        <Label :text="item.recipe.name" width="50%"></Label>
+        <Label :text="item.quantity" width="20%" horizontalAlignment="center" textAlignment="center"></Label>
 
-        <Label :text="item.recipe.name"
-               col="0" row="0"
-        ></Label>
-        <Label :text="item.quantity"
-               col="1"  row="0"
-               horizontalAlignment="center"
-        ></Label>
-        <Label col="2" row="0"  horizontalAlignment="right">
-            <FormattedString horizontalAlignment="right">
-                <span text="$" horizontalAlignment="right" />
-                <span :text="item.quantity * item.price" fontWeight="Bold" horizontalAlignment="right" />
+        <Label width="30%" textWrap="true" horizontalAlignment="right" textAlignment="right">
+            <FormattedString>
+                <Span text.decode="&dollar;"/>
+                <span :text="item.quantity * item.price" fontWeight="Bold"/>
             </FormattedString>
         </Label>
+    </FlexboxLayout>
 
-    </GridLayout>
 </template>
 
 <script>
@@ -72,4 +70,5 @@
 </script>
 
 <style scoped>
+
 </style>
