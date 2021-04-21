@@ -26,7 +26,6 @@
     import OpenDrawerBtn from "../buttons/OpenDrawerBtn";
     import Card from "./ListItemCard";
     import FabBtn from "../buttons/FabBtn";
-    import Theme from "@nativescript/theme";
 
     export default {
         mixins: [ sideDrawer ],
@@ -74,9 +73,6 @@
         mounted() {
             console.log('Sale List mounted');
             this.fetchItems();
-
-            // Theme.setMode(Theme.Light);
-            Theme.toggleMode();
         },
     };
 </script>

@@ -5,14 +5,18 @@ export default {
     namespaced: true,
 
     state: {
-        authenticated: false,
+        authenticated: true,
         user: null,
         token: null,
+        authenticating: true,
     },
 
     getters: {
         authenticated (state) {
             return state.authenticated
+        },
+        isAuthenticating (state) {
+            return state.authenticating
         },
         user (state) {
             return state.user
@@ -25,6 +29,9 @@ export default {
     mutations: {
         SET_AUTHENTICATED (state, value) {
             state.authenticated = value
+        },
+        SET_AUTHENTICATING (state, value) {
+            state.authenticating = value
         },
 
         SET_USER (state, value) {
@@ -43,12 +50,26 @@ export default {
             const storedState = ApplicationSettings.getString("token");
             console.log('local storedState', storedState)
             if(storedState) token = JSON.parse(storedState);
-            if(token) {
+            if(token)
                 commit('SET_TOKEN', token);
-                dispatch('me');
-                return token;
-            }
-            return null;
+        },
+        async me ({ state, commit, dispatch, rootGetters }) {
+            commit('SET_AUTHENTICATING', true);
+            axios.defaults.headers.common['Authorization'] = `Bearer ${state.token}`;
+            axios.defaults.headers.common['Accept'] = 'application/json';
+            return await axios.get(`${rootGetters.apiBaseUrl}/v1/users/me`).then((response) => {
+                console.log('store.auth me response', response.data.data);
+                commit('SET_AUTHENTICATED', true);
+                commit('SET_USER', response.data.data);
+                commit('SET_AUTHENTICATING', false);
+            }).catch((error) => {
+                console.error('store.auth me error', error);
+                console.error(error.data);
+                commit('SET_AUTHENTICATED', false);
+                commit('SET_USER', null);
+                commit('SET_TOKEN', null);
+                commit('SET_AUTHENTICATING', false);
+            })
         },
         async signIn ({ commit, dispatch, rootGetters }, credentials) {
             // dispatch('incrementLoading', null, {root: true});
@@ -82,23 +103,6 @@ export default {
             commit('SET_TOKEN', null);
             ApplicationSettings.remove("token");
             return dispatch('me');
-        },
-        me ({ state, commit, dispatch, rootGetters }) {
-            // dispatch('incrementLoading', null, {root: true});
-            axios.defaults.headers.common['Authorization'] = `Bearer ${state.token}`;
-            axios.defaults.headers.common['Accept'] = 'application/json';
-            return axios.get(`${rootGetters.apiBaseUrl}/v1/users/me`).then((response) => {
-                console.log('store.auth signIn response', response.data.data)
-                commit('SET_AUTHENTICATED', true);
-                commit('SET_USER', response.data.data);
-            }).catch((error) => {
-                console.error('store.auth me error', error);
-                console.error(error.data);
-                commit('SET_AUTHENTICATED', false);
-                commit('SET_USER', null);
-                commit('SET_TOKEN', null);
-            })
-            // dispatch('decrementLoading', null, {root: true});
         },
         async forgotPassword ({ dispatch }, credentials) {
             dispatch('incrementLoading', null, {root: true});

@@ -11,8 +11,7 @@
                            v-for="(page, i) in pages"
                            @tap="goToPage(page.component)"
                            :text="page.name"
-                           :key="i"
-                    />
+                           :key="i"></Label>
                     <Button class="drawer-close-button" @tap="closeDrawer()">Cerrar Menú</Button>
                     <Button class="drawer-logout" @tap="logout">Salir</Button>
                 </StackLayout>
@@ -32,27 +31,16 @@
             ...mapGetters({
                 appName: 'appName',
                 user: 'auth/user',
-                isAuthenticated: 'auth/authenticated',
             })
         },
-        // watch: {
-        //     isAuthenticated(newValue, oldValue) {
-        //         console.log('Drawer Content watcher');
-        //         console.log('isAuthenticated =', newValue);
-        //         if(!newValue) {
-        //             this.$navigateTo(this.$routes.Login);
-        //             this.closeDrawer()
-        //         }
-        //     }
-        // },
         data () {
             return {
                 // define our pages, making sure the component matches that defined in /app/router/index.js
                 pages: [
-                    { name: 'Home', component: this.$routes.Home },
+                    { name: 'Home', component: this.$routes.App },
                     { name: 'Ventas', component: this.$routes.SaleList },
                     { name: 'Inventario', component: this.$routes.InventoryList },
-                    { name: 'Recetas', component: this.$routes.Recipes },
+                    // { name: 'Recetas', component: this.$routes.Recipes },
                 ],
             }
         },
@@ -67,15 +55,13 @@
                 });
                 this.closeDrawer();
             },
-            logout (e) {
+            logout () {
                 this.signOut();
+                this.closeDrawer();
             },
         },
         mounted() {
             console.log('Drawer Content mounted');
-            console.log('isAuthenticated =', this.isAuthenticated);
-            // if(!this.isAuthenticated)
-            //     this.$navigateTo(this.$routes.Login);
         },
     }
 </script>
