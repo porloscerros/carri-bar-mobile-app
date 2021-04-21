@@ -67,7 +67,7 @@
                 this.$navigateTo(this.$routes.Login);
             }
             // Theme.setMode(Theme.Light);
-            Theme.toggleMode();
+            // Theme.toggleMode();
         },
     }
 </script>

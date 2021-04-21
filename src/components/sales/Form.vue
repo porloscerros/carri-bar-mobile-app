@@ -1,43 +1,45 @@
 <template>
-    <StackLayout>
-        <StackLayout height="30%">
-            <Label :text="form.date | formatDate" horizontalAlignment="center"></Label>
+    <Scrollview>
+        <StackLayout>
+            <StackLayout height="200">
+                <Label :text="form.date | formatDate" horizontalAlignment="center"></Label>
 
-            <TextField v-model="form.table" horizontalAlignment="center" hint="mesa..." height="70" width="80%"></TextField>
+                <TextField v-model="form.table" horizontalAlignment="center" hint="mesa..." height="70" width="80%"></TextField>
 
-            <Label  horizontalAlignment="center">
-                <FormattedString>
-                    <Span text="Total: "/>
-                    <Span text.decode="&dollar;"/>
-                    <Span :text="total" fontWeight="Bold"/>
-                </FormattedString>
-            </Label>
+                <Label  horizontalAlignment="center">
+                    <FormattedString>
+                        <Span text="Total: "/>
+                        <Span text.decode="&dollar;"/>
+                        <Span :text="total" fontWeight="Bold"/>
+                    </FormattedString>
+                </Label>
+            </StackLayout>
+
+            <GridLayout columns="*" rows="auto, auto, auto, auto" height="300">
+                <Label row="0" text="Carta Cocina:"/>
+                <select-picker row="1" v-if="kitchenRecipes.length" class="text-center"
+                               label="Recetas:"
+                               hint="Click here"
+                               :options="kitchenRecipes"
+                               @select="onRecipesSelected"
+                ></select-picker>
+
+                <Label row="2" text="Carta Bar:"/>
+                <select-picker row="3" v-if="barRecipes.length" class="text-center"
+                               label="Recetas:"
+                               hint="Click here"
+                               :options="barRecipes"
+                               @select="onRecipesSelected"
+                ></select-picker>
+            </GridLayout>
+
+            <ListView for="recipe in form.recipes" height="300">
+                <v-template>
+                    <RecipeCard :item="recipe"></RecipeCard>
+                </v-template>
+            </ListView>
         </StackLayout>
-
-        <GridLayout columns="*" rows="auto, auto, auto, auto" height="40%">
-            <Label row="0" text="Carta Cocina:"/>
-            <select-picker row="1" v-if="recipes.length" class="text-center"
-                           label="Recetas:"
-                           hint="Click here"
-                           :options="recipes"
-                           @select="onRecipesSelected"
-            ></select-picker>
-
-            <Label row="2" text="Carta Bar:"/>
-            <select-picker row="3" v-if="recipes.length" class="text-center"
-                           label="Recetas:"
-                           hint="Click here"
-                           :options="recipes"
-                           @select="onRecipesSelected"
-            ></select-picker>
-        </GridLayout>
-
-        <ListView for="recipe in form.recipes" height="30%">
-            <v-template>
-                <RecipeCard :item="recipe"></RecipeCard>
-            </v-template>
-        </ListView>
-    </StackLayout>
+    </Scrollview>
 </template>
 
 <script>
@@ -71,6 +73,16 @@
                     console.log(valorActual)
                     return valorAnterior + (valorActual.quantity * valorActual.price);
                 }, 0);
+            },
+            kitchenRecipes() {
+                return this.recipes.filter(item => {
+                    return item.type.keyname === 'food';
+                });
+            },
+            barRecipes() {
+                return this.recipes.filter(item => {
+                    return item.type.keyname === 'bar';
+                });
             }
         },
         data() {
@@ -83,7 +95,8 @@
                     recipes: this.item.recipes,
                 },
                 recipes: [],
-                recipe: {}
+                recipe: {},
+                dialogOpen: false
             };
         },
         watch: {
@@ -137,7 +150,7 @@
                 return this.recipes.find(item => {
                     return item.id === id;
                 })
-            }
+            },
         },
         mounted() {
             console.log('Sale Form mounted');

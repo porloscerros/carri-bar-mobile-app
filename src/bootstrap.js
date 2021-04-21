@@ -1,3 +1,4 @@
+import VueDevtools from 'nativescript-vue-devtools'
 import Vue from 'nativescript-vue';
 import PickerField from "@nativescript/picker/vue";
 import {TNSFontIcon, fonticon} from 'nativescript-fonticon';
@@ -5,6 +6,7 @@ import moment from 'moment';
 
 // Prints Vue logs when --env.production is *NOT* set while building
 Vue.config.silent = (TNS_ENV === 'production');
+Vue.use(VueDevtools);
 
 Vue.registerElement('RadSideDrawer', () => require('nativescript-ui-sidedrawer').RadSideDrawer);
 Vue.registerElement('Fab', () => require('@nstudio/nativescript-floatingactionbutton').Fab);
@@ -18,10 +20,9 @@ TNSFontIcon.paths = {
 };
 TNSFontIcon.loadCss();
 Vue.filter('fonticon', fonticon);
-// Vue.filter('fonticon', fonticon);
 
 Vue.filter('formatDate', function(value) {
     if (value) {
-        return moment(String(value)).format('MM/DD/YYYY hh:mm')
+        return moment(String(value)).format('MM/DD/YYYY HH:mm')
     }
 });

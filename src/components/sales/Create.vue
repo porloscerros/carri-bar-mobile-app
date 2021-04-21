@@ -9,7 +9,7 @@
             </GridLayout>
         </ActionBar>
 
-        <GridLayout ~mainContent>
+        <GridLayout ~mainContent class="home-panel p-20">
             <SaleForm ref="form"></SaleForm>
             <ActivityIndicator :busy="isUpdating"/>
         </GridLayout>

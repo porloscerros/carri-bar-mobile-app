@@ -76,5 +76,7 @@
 </script>
 
 <style lang="scss">
-
+.item-template-label {
+    font-size: 18;
+}
 </style>
