@@ -57,7 +57,6 @@
                         }
                     };
                     const { data } = await this.$http.get(`/v1/sales`, params);
-                    console.log(data)
                     if(data)
                         this.items = data;
                 } catch(error) {

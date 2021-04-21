@@ -4,13 +4,13 @@
         <ActionBar>
             <GridLayout width="100%" columns="auto, *">
                 <cancel-btn col="0" @tap="onCancelButtonTap"></cancel-btn>
-                <Label col="1" class="title" text="Editar Inventario"/>
+                <Label col="1" class="title" text="Nueva Venta"/>
                 <save-btn col="2" @tap="onDoneButtonTap"></save-btn>
             </GridLayout>
         </ActionBar>
 
-        <GridLayout>
-            <inventory-form ref="form"></inventory-form>
+        <GridLayout ~mainContent>
+            <SaleForm ref="form"></SaleForm>
             <ActivityIndicator :busy="isUpdating"/>
         </GridLayout>
 
@@ -20,11 +20,11 @@
 <script>
     import SaveBtn from '~/components/buttons/SaveBtn'
     import CancelBtn from '~/components/buttons/CancelBtn'
-    import InventoryForm from './Form'
+    import SaleForm from './Form'
     export default {
         name: "Create",
         components: {
-            InventoryForm,
+            SaleForm,
             SaveBtn,
             CancelBtn,
         },
@@ -38,7 +38,7 @@
                 this.navigateToList();
             },
             navigateToList() {
-                this.$navigateTo(this.$routes.InventoryList, {
+                this.$navigateTo(this.$routes.SaleList, {
                     animated: true,
                     transition: 'fade'
                 });
@@ -52,8 +52,9 @@
                 this.isUpdating = true;
                 try {
                     let data = JSON.stringify(form);
-                    let response = await this.$http.post(`/v1/inventories`, data);
+                    let response = await this.$http.post(`/v1/sales`, data);
                     console.log('store.auth signIn response.data', response.data)
+                    this.navigateToList();
                 } catch(error) {
                     console.log(error);
                     console.error(error.response.data);
@@ -65,7 +66,6 @@
                     }
                 }
                 this.isUpdating = false;
-                this.navigateToList();
             },
         },
     }
