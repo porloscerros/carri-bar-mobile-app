@@ -1,8 +1,9 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import auth from './modules/auth';
 import sideDrawer from './modules/sideDrawer';
+import auth from './modules/auth';
+import sales from './modules/sales';
 
 const connectivity = require("connectivity");
 
@@ -15,7 +16,8 @@ const checkNetwork = () => {
 export default new Vuex.Store({
     modules: {
         sideDrawer,
-        auth
+        auth,
+        sales
     },
     state: {
         appName: 'La Bohemia Admin',

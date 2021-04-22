@@ -21,6 +21,7 @@
     import SaveBtn from '~/components/buttons/SaveBtn'
     import CancelBtn from '~/components/buttons/CancelBtn'
     import SaleForm from './Form'
+    const dialogs = require('tns-core-modules/ui/dialogs');
     export default {
         name: "Create",
         components: {
@@ -58,11 +59,21 @@
                 } catch(error) {
                     console.log(error);
                     console.error(error.response.data);
-                    console.log(Object.keys(error.response))
-                    console.log(error.response.headers)
+                    // console.log(Object.keys(error.response))
+                    // console.log(error.response.headers)
                     if(error.response.status === 422) {
-                        console.log('Revisa los siguientes datos!')
+                        console.log(error.response.data.message)
                         console.log(error.response.data.errors)
+                        const printData = Object.values(error.response.data.errors)
+                            .map(entry => entry.join(', '))
+                            .join('. ');
+                        alert({
+                            title: error.response.data.message,
+                            message: printData,
+                            okButtonText: 'Ok'
+                        }).then(() => {
+                            console.log('Alert dialog closed');
+                        });
                     }
                 }
                 this.isUpdating = false;

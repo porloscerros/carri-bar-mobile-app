@@ -6,7 +6,7 @@
 
                 <TextField v-model="form.table" horizontalAlignment="center" hint="mesa..." height="70" width="80%"></TextField>
 
-                <Label  horizontalAlignment="center">
+                <Label horizontalAlignment="center" class="total my-1">
                     <FormattedString>
                         <Span text="Total: "/>
                         <Span text.decode="&dollar;"/>
@@ -15,61 +15,59 @@
                 </Label>
             </StackLayout>
 
-            <GridLayout columns="*" rows="auto, auto, auto, auto" height="300">
-                <Label row="0" text="Carta Cocina:"/>
-                <select-picker row="1" v-if="kitchenRecipes.length" class="text-center"
-                               label="Recetas:"
-                               hint="Click here"
-                               :options="kitchenRecipes"
-                               @select="onRecipesSelected"
-                ></select-picker>
+            <Scrollview height="200">
+                <ListView for="recipe in form.recipes">
+                    <v-template>
+                        <RecipeCard :item="recipe"></RecipeCard>
+                    </v-template>
+                </ListView>
+            </Scrollview>
 
-                <Label row="2" text="Carta Bar:"/>
-                <select-picker row="3" v-if="barRecipes.length" class="text-center"
-                               label="Recetas:"
-                               hint="Click here"
-                               :options="barRecipes"
-                               @select="onRecipesSelected"
-                ></select-picker>
+            <GridLayout columns="*, *" rows="auto">
+                <BarMenuBtn col="0"></BarMenuBtn>
+                <FoodMenuBtn col="1"></FoodMenuBtn>
             </GridLayout>
-
-            <ListView for="recipe in form.recipes" height="300">
-                <v-template>
-                    <RecipeCard :item="recipe"></RecipeCard>
-                </v-template>
-            </ListView>
         </StackLayout>
     </Scrollview>
 </template>
 
 <script>
+    import { mapGetters, mapActions } from 'vuex';
     import SelectPicker from "../inputs/SelectPicker";
+    import BarMenuBtn from "./recipes/FabBarMenuBtn";
+    import FoodMenuBtn from "./recipes/FabFoodMenuBtn";
     import RecipeCard from "./RecipeListItem";
     const dialogs = require('tns-core-modules/ui/dialogs');
 
     export default {
         name: "Form",
-        props: {
-            item: {
-                type: Object,
-                default() {
-                    return {
-                        id: null,
-                        date: new Date().toISOString(),
-                        table: '',
-                        total: 0,
-                        recipes: [],
-                    }
-                }
-            },
-        },
+        // props: {
+        //     item: {
+        //         type: Object,
+        //         default() {
+        //             return {
+        //                 id: null,
+        //                 date: new Date().toISOString(),
+        //                 table: '',
+        //                 total: 0,
+        //                 recipes: [],
+        //             }
+        //         }
+        //     },
+        // },
         components: {
             SelectPicker,
             RecipeCard,
+            BarMenuBtn,
+            FoodMenuBtn,
         },
         computed: {
+            ...mapGetters({
+                item: 'sales/sale',
+                saleForm: 'sales/form',
+            }),
             total() {
-                return this.form.recipes.reduce((valorAnterior, valorActual) => {
+                return this.item.recipes.reduce((valorAnterior, valorActual) => {
                     console.log(valorActual)
                     return valorAnterior + (valorActual.quantity * valorActual.price);
                 }, 0);
@@ -83,20 +81,14 @@
                 return this.recipes.filter(item => {
                     return item.type.keyname === 'bar';
                 });
-            }
+            },
         },
         data() {
             return {
-                form: {
-                    id: this.item? this.item.id: null,
-                    table: this.item.table,
-                    total: this.item.total,
-                    date: this.item.date,
-                    recipes: this.item.recipes,
-                },
+                form: {},
                 recipes: [],
                 recipe: {},
-                dialogOpen: false
+                dialogOpen: false,
             };
         },
         watch: {
@@ -108,6 +100,9 @@
             }
         },
         methods: {
+            ...mapActions({
+                setRecipes: 'sales/setRecipes',
+            }),
             onCancelButtonTap() {
                 this.$navigateTo(this.$routes.SaleList);
             },
@@ -118,8 +113,10 @@
                 this.loading = true;
                 try {
                     const { data } = await this.$http.get(`/v1/recipes`);
-                    if(data)
+                    if(data) {
+                        this.setRecipes(data)
                         this.recipes = data;
+                    }
                 } catch(error) {
                     console.error(error);
                 }
@@ -154,7 +151,9 @@
         },
         mounted() {
             console.log('Sale Form mounted');
+            console.log('item', this.item);
             this.fetchRecipes();
+            this.form = this.saleForm;
         },
     }
 </script>
@@ -162,5 +161,11 @@
 <style scoped>
     TextField {
         font-size: 18;
+    }
+    Datepicker {
+        color: white;
+    }
+    .total {
+        font-size: 20;
     }
 </style>
