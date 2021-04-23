@@ -10,7 +10,7 @@
         <grid-layout ~mainContent rows="auto, *">
             <list-view row="1" for="item in items" class="list-group">
                 <v-template>
-                    <Card :item="item"></Card>
+                    <Card @tap="onEdit" @longPress="onDelete" :item="item"></Card>
                 </v-template>
             </list-view>
             <fab-btn
@@ -66,9 +66,19 @@
             onCreate() {
                 this.$navigateTo(this.$routes.SaleCreate, {
                     animated: true,
-                    transition: 'fade'
+                    transition: 'slide'
                 });
             },
+            onEdit(item) {
+                this.$navigateTo(this.$routes.SaleEdit, {
+                    props: { item: item, },
+                    animated: true,
+                    transition: 'slide'
+                })
+            },
+            onDelete(item) {
+                console.log('Sale Delete', item)
+            }
         },
         mounted() {
             console.log('Sale List mounted');

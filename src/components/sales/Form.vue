@@ -1,7 +1,7 @@
 <template>
-    <Scrollview>
-        <StackLayout>
-            <StackLayout height="200">
+    <Scrollview height="100%">
+        <StackLayout height="100%">
+            <StackLayout height="20%">
                 <Label :text="form.date | formatDate" horizontalAlignment="center"></Label>
 
                 <TextField v-model="form.table" horizontalAlignment="center" hint="mesa..." height="70" width="80%"></TextField>
@@ -15,15 +15,15 @@
                 </Label>
             </StackLayout>
 
-            <Scrollview height="200">
-                <ListView for="recipe in form.recipes">
+            <Scrollview >
+                <ListView for="recipe in form.recipes" height="80%">
                     <v-template>
                         <RecipeCard :item="recipe"></RecipeCard>
                     </v-template>
                 </ListView>
             </Scrollview>
 
-            <GridLayout columns="*, *" rows="auto">
+            <GridLayout columns="*, *" rows="auto" >
                 <BarMenuBtn col="0"></BarMenuBtn>
                 <FoodMenuBtn col="1"></FoodMenuBtn>
             </GridLayout>

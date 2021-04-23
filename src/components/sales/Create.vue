@@ -1,11 +1,10 @@
 <template>
-
     <Page>
         <ActionBar>
             <GridLayout width="100%" columns="auto, *">
-                <cancel-btn col="0" @tap="onCancelButtonTap"></cancel-btn>
+                <nav-back col="0" @tap="onCancelButtonTap"></nav-back>
                 <Label col="1" class="title" text="Nueva Venta"/>
-                <save-btn col="2" @tap="onDoneButtonTap"></save-btn>
+                <save-btn v-if="!isUpdating" col="2" @tap="onDoneButtonTap"></save-btn>
             </GridLayout>
         </ActionBar>
 
@@ -19,15 +18,16 @@
 
 <script>
     import SaveBtn from '~/components/buttons/SaveBtn'
-    import CancelBtn from '~/components/buttons/CancelBtn'
+    import NavBack from '~/components/buttons/NavBack'
     import SaleForm from './Form'
-    const dialogs = require('tns-core-modules/ui/dialogs');
+    import {mapActions} from "vuex";
+
     export default {
         name: "Create",
         components: {
             SaleForm,
             SaveBtn,
-            CancelBtn,
+            NavBack,
         },
         data() {
             return {
@@ -35,13 +35,17 @@
             };
         },
         methods: {
+            ...mapActions({
+                setSaleInitialState: 'sales/setSaleInitialState'
+            }),
             onCancelButtonTap() {
                 this.navigateToList();
             },
             navigateToList() {
+                this.setSaleInitialState();
                 this.$navigateTo(this.$routes.SaleList, {
                     animated: true,
-                    transition: 'fade'
+                    transition: 'slideRight'
                 });
             },
             onDoneButtonTap() {
@@ -54,7 +58,6 @@
                 try {
                     let data = JSON.stringify(form);
                     let response = await this.$http.post(`/v1/sales`, data);
-                    console.log('store.auth signIn response.data', response.data)
                     this.navigateToList();
                 } catch(error) {
                     console.log(error);
@@ -71,14 +74,15 @@
                             title: error.response.data.message,
                             message: printData,
                             okButtonText: 'Ok'
-                        }).then(() => {
-                            console.log('Alert dialog closed');
                         });
                     }
                 }
                 this.isUpdating = false;
             },
         },
+        mounted() {
+            this.setSaleInitialState();
+        }
     }
 </script>
 

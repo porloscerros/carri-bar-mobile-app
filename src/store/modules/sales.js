@@ -32,16 +32,19 @@ export default {
             });
         },
         recipe (state) {
-            return state.recipe
+            return state.recipe;
         },
     },
 
     mutations: {
         SET_SALE (state, payload) {
-            state.sale = Object.assign({}, state.sale, payload)
+            state.sale = Object.assign({}, state.sale, payload);
+        },
+        SET_SALE_INITIAL_STATE (state) {
+            state.sale = saleInitialState;
         },
         ADD_SALE_RECIPE (state, payload) {
-            state.sale.recipes.push(payload)
+            state.sale.recipes.push(payload);
         },
         SET_RECIPE (state, payload) {
             console.log('SET_RECIPE payload',payload);
@@ -57,6 +60,9 @@ export default {
         setSale({ commit }, obj) {
             commit('SET_SALE', obj)
         },
+        setSaleInitialState({ commit }) {
+            commit('SET_SALE_INITIAL_STATE')
+        },
         addSaleRecipe({ commit }, obj) {
             commit('ADD_SALE_RECIPE', obj)
         },
@@ -65,6 +71,9 @@ export default {
         },
         setRecipes({ commit }, data) {
             commit('SET_RECIPES', data)
+        },
+        getSale({ commit }, obj) {
+            commit('SET_SALE', obj)
         },
     }
 }
