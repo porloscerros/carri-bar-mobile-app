@@ -1,11 +1,15 @@
 <template>
     <Fab
-            @tap="callback($event)"
+            @tap="openItemPickerModal"
             class="fas fab-button" :text="'fa-cocktail' | fonticon"
     ></Fab>
 </template>
 
 <script>
+    import {mapActions, mapGetters} from "vuex";
+    import ItemPickerModal from './ItemPickerModal';
+    import QuantityModal from './QuantityModal';
+
     export default {
         name: "FabBarMenuBtn",
         props: {
@@ -19,9 +23,40 @@
                 default: false
             },
         },
+        computed: {
+            ...mapGetters({
+                items: 'sales/barRecipes',
+                selected: 'sales/recipe',
+            }),
+        },
         methods: {
+            ...mapActions({
+                addSaleRecipe: 'sales/addSaleRecipe',
+            }),
             callback: function(e) {
                 this.$emit('tap', e);
+            },
+            openItemPickerModal() {
+                this.$showModal(ItemPickerModal, { fullscreen: true, props: { items: this.items } })
+                    .then(result => {
+                        if (result === 'selected') {
+                            console.log('ItemPickerModal result', result);
+                            this.openQuantityModal();
+                        }
+                    });
+            },
+            openQuantityModal() {
+                console.log('store.selected', this.selected);
+                this.$showModal(QuantityModal, { fullscreen: true })
+                    .then(result => {
+                        console.log('QuantityModal result', result);
+                        if (result === 'selected') {
+                            this.addSaleRecipe(this.selected)
+                        }
+                    });
+            },
+            onItemTap(e) {
+                console.log('FabMenuBtn onItemTap', e);
             }
         }
     }

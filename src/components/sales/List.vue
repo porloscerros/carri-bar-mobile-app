@@ -17,7 +17,9 @@
                     @tap="onCreate"
                     row="1"
             ></fab-btn>
+            <ActivityIndicator :busy="loading"/>
         </grid-layout>
+
     </Page>
 </template>
 
@@ -33,11 +35,6 @@
             OpenDrawerBtn,
             Card,
             FabBtn,
-        },
-        computed: {
-            isLoading() {
-                return !this.items.length;
-            }
         },
         data() {
             return {
@@ -77,7 +74,16 @@
                 })
             },
             onDelete(item) {
-                console.log('Sale Delete', item)
+                confirm({
+                    title: "¿Confirma eliminar la Venta?",
+                    message: "Esta operación no se puede deshacer",
+                    okButtonText: "OK",
+                    cancelButtonText: "Cancelar"
+                }).then(result => {
+                    console.log(result);
+                    if (result)
+                        alert('Esta característica aún no está disponible.')
+                });
             }
         },
         mounted() {
