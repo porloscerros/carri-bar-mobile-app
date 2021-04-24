@@ -13,6 +13,7 @@ android {
   defaultConfig {
     minSdkVersion 17
     generatedDensities = []
+    applicationId = "ar.com.porloscerros.labohemia.sistema"
   }
   aaptOptions {
     additionalParameters "--no-version-vectors"

@@ -1,8 +1,11 @@
 {
-  "name": "carri-bar",
+  "name": "labohemia.sistema",
+  "nativescript": {
+    "id": "ar.com.porloscerros.labohemia.sistema"
+  },
   "main": "main.js",
   "version": "1.0.0",
-  "description": "A native application built with NativeScript-Vue",
+  "description": "API client to manage Food&Bar Business.",
   "author": "porloscerros <porloscerros@gmail.com>",
   "license": "MIT",
   "dependencies": {
