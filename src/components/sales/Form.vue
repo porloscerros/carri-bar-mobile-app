@@ -1,34 +1,38 @@
 <template>
-    <Scrollview height="100%">
-        <StackLayout height="100%">
-            <StackLayout height="20%">
-                <Label :text="form.date | formatDate" horizontalAlignment="center"></Label>
+    <GridLayout columns="*" rows="auto, *, auto" height="100%">
+        <StackLayout col="0" row="0">
+            <Label :text="form.date | formatDate" horizontalAlignment="center"></Label>
 
-                <TextField v-model="form.table" horizontalAlignment="center" hint="mesa..." height="70" width="80%"></TextField>
+            <TextField v-model="form.table"
+                       horizontalAlignment="center"
+                       textAlignment="center"
+                       hint="mesa..."
+                       height="70"
+                       width="80%"
+            ></TextField>
 
-                <Label horizontalAlignment="center" class="total my-1">
-                    <FormattedString>
-                        <Span text="Total: "/>
-                        <Span text.decode="&dollar;"/>
-                        <Span :text="total" fontWeight="Bold"/>
-                    </FormattedString>
-                </Label>
-            </StackLayout>
-
-            <Scrollview >
-                <ListView for="recipe in form.recipes" height="80%">
-                    <v-template>
-                        <ListItem :item="recipe"></ListItem>
-                    </v-template>
-                </ListView>
-            </Scrollview>
-
-            <GridLayout columns="*, *" rows="auto" >
-                <BarMenuBtn col="0"></BarMenuBtn>
-                <FoodMenuBtn col="1"></FoodMenuBtn>
-            </GridLayout>
+            <Label horizontalAlignment="center" class="total my-3">
+                <FormattedString>
+                    <Span text="Total: "/>
+                    <Span text.decode="&dollar;"/>
+                    <Span :text="total" fontWeight="Bold"/>
+                </FormattedString>
+            </Label>
         </StackLayout>
-    </Scrollview>
+
+        <Scrollview row="1">
+            <ListView v-if="form" for="recipe in item.recipes">
+                <v-template>
+                    <ListItem :item="recipe"></ListItem>
+                </v-template>
+            </ListView>
+        </Scrollview>
+
+        <GridLayout row="2" columns="*, *" rows="auto">
+            <BarMenuBtn col="0"></BarMenuBtn>
+            <FoodMenuBtn col="1"></FoodMenuBtn>
+        </GridLayout>
+    </GridLayout>
 </template>
 
 <script>
@@ -36,7 +40,7 @@
     import SelectPicker from "../inputs/SelectPicker";
     import BarMenuBtn from "./recipes/FabBarMenuBtn";
     import FoodMenuBtn from "./recipes/FabFoodMenuBtn";
-    import ListItem from "./ListItem";
+    import ListItem from "./recipes/ListItem";
     const dialogs = require('tns-core-modules/ui/dialogs');
 
     export default {
@@ -64,29 +68,18 @@
         computed: {
             ...mapGetters({
                 item: 'sales/sale',
+                recipes: 'sales/form',
                 saleForm: 'sales/form',
             }),
             total() {
                 return this.item.recipes.reduce((valorAnterior, valorActual) => {
-                    console.log(valorActual)
                     return valorAnterior + (valorActual.quantity * valorActual.price);
                 }, 0);
-            },
-            kitchenRecipes() {
-                return this.recipes.filter(item => {
-                    return item.type.keyname === 'food';
-                });
-            },
-            barRecipes() {
-                return this.recipes.filter(item => {
-                    return item.type.keyname === 'bar';
-                });
             },
         },
         data() {
             return {
                 form: {},
-                recipes: [],
                 recipe: {},
                 dialogOpen: false,
             };
@@ -103,19 +96,13 @@
             ...mapActions({
                 setRecipes: 'sales/setRecipes',
             }),
-            onCancelButtonTap() {
-                this.$navigateTo(this.$routes.SaleList);
-            },
-            onDoneButtonTap() {
-                this.$emit("submit", this.form);
-            },
             async fetchRecipes () {
                 this.loading = true;
                 try {
                     const { data } = await this.$http.get(`/v1/recipes`);
                     if(data) {
-                        this.setRecipes(data)
-                        this.recipes = data;
+                        this.setRecipes(data);
+                        // this.recipes = data;
                     }
                 } catch(error) {
                     console.error(error);
@@ -151,7 +138,6 @@
         },
         mounted() {
             console.log('Sale Form mounted');
-            console.log('item', this.item);
             this.fetchRecipes();
             this.form = this.saleForm;
         },

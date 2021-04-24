@@ -1,6 +1,6 @@
 require('./bootstrap');
-import Vue from 'nativescript-vue'
-import routes from '~/router';
+import Vue from 'nativescript-vue';
+import routes from './router/index';
 import store from '~/store/index';
 import axiosConfig from './api/axios-config';
 import sideDrawer from '~/components/sideDrawer';
@@ -13,13 +13,5 @@ Vue.prototype.$routes = routes;
 
 new Vue({
     store,
-    render (h) {
-        return h(
-            sideDrawer,
-            [
-                h(drawerContent, { slot: 'drawerContent' }),
-                h(routes.App, { slot: 'mainContent' })
-            ]
-        )
-    },
+    render: h => h(App)
 }).$start();

@@ -1,22 +1,27 @@
 <template>
-    <GridLayout @touch="onTouch($event, item)" class="list-group-item" columns="auto, *" rows="70, 30">
-        <Label :text="item.name"
-               col="0" row="0"
-        ></Label>
-        <Label textWrap="true" col="1" row="0" horizontalAlignment="right">
-            <FormattedString >
-                <span text="$" />
-                <span :text="item.price" fontWeight="Bold" />
+    <FlexboxLayout justifyContent="space-between"
+                   @touch="onTouch($event, item)"
+                   separatorColor="#ff4081"
+    >
+
+        <Label :text="item.recipe.name" width="50%"></Label>
+
+        <Label :text="item.quantity" width="20%" horizontalAlignment="center" textAlignment="center"></Label>
+
+        <Label width="30%" textWrap="true" horizontalAlignment="right" textAlignment="right">
+            <FormattedString>
+                <Span text.decode="&dollar;"/>
+                <span :text="calculateSubtotal(item)" fontWeight="Bold"/>
             </FormattedString>
         </Label>
-    </GridLayout>
+
+    </FlexboxLayout>
+
 </template>
 
 <script>
-    const dialogs = require('tns-core-modules/ui/dialogs');
-
     export default {
-        name: "ListItemCard",
+        name: "ListItem",
         props: ['item'],
         data() {
             return {
@@ -25,28 +30,19 @@
             }
         },
         methods: {
+            calculateSubtotal(item) {
+                console.log(item);
+                return Number(item.quantity) * Number(item.price);
+            },
             onItemTap(item) {
+                console.log("Tap!");
                 this.$emit("tap", item);
-                // this.$navigateTo(this.$routes.SaleDetail, {
-                //     props: { item: item, },
-                //     animated: true,
-                //     transition: 'fade'
-                // })
             },
             onDoubleTap() {
                 console.log("DoubleTap!");
             },
             onLongPress(item) {
-                // prompt({
-                //     title: 'Corregir Cantidad',
-                //     message: 'Ingresa la cantidad real del inventario:',
-                //     okButtonText: 'OK',
-                //     cancelButtonText: 'Cancelar',
-                //     inputType: dialogs.inputType.number
-                // })
-                //     .then(result => {
-                //         console.log(`Dialog result: ${result.result}, text: ${result.text}`)
-                //     });
+                console.log("LongPress!");
             },
             onTouch(event, item) {
                 if(event.action === "down") {
@@ -61,12 +57,14 @@
                         this.onItemTap(item);
                 }
             },
-        }
+        },
+        mounted() {
+            console.log('Recipe ListItem mounted');
+            console.log(this.item);
+        },
     }
 </script>
 
 <style scoped>
-    Label {
-        font-size: 20;
-    }
+
 </style>

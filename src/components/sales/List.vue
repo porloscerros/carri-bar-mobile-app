@@ -1,37 +1,24 @@
 <template>
-    <Page>
-        <ActionBar>
-            <GridLayout width="100%" columns="auto, *">
-                <open-drawer-btn col="0" @tap="openDrawer()"></open-drawer-btn>
-                <Label col="1" class="title" text="Ventas" />
-            </GridLayout>
-        </ActionBar>
-
-        <grid-layout ~mainContent rows="auto, *">
-            <list-view row="1" for="item in items" class="list-group">
-                <v-template>
-                    <ListItem @tap="onEdit" @longPress="onDelete" :item="item"></ListItem>
-                </v-template>
-            </list-view>
-            <fab-btn
-                    @tap="onCreate"
-                    row="1"
-            ></fab-btn>
-            <ActivityIndicator :busy="loading"/>
-        </grid-layout>
-    </Page>
+    <grid-layout rows="auto, *">
+        <list-view row="1" for="item in items" class="list-group">
+            <v-template>
+                <ListItem @tap="onEdit" @longPress="onDelete" :item="item"></ListItem>
+            </v-template>
+        </list-view>
+        <fab-btn
+                @tap="onCreate"
+                row="1"
+        ></fab-btn>
+        <ActivityIndicator :busy="loading"/>
+    </grid-layout>
 </template>
 
 <script>
-    import sideDrawer from '~/mixins/sideDrawer';
-    import OpenDrawerBtn from "../buttons/OpenDrawerBtn";
     import ListItem from "./ListItem";
     import FabBtn from "../buttons/FabBtn";
 
     export default {
-        mixins: [ sideDrawer ],
         components: {
-            OpenDrawerBtn,
             ListItem,
             FabBtn,
         },

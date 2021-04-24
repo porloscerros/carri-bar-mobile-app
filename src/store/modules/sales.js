@@ -21,6 +21,9 @@ export default {
         form (state) {
             return state.sale
         },
+        recipes (state) {
+            return state.recipes;
+        },
         kitchenRecipes(state) {
             return state.recipes.filter(item => {
                 return item.type.keyname === 'food';
@@ -47,9 +50,7 @@ export default {
             state.sale.recipes.push(payload);
         },
         SET_RECIPE (state, payload) {
-            console.log('SET_RECIPE payload',payload);
             state.recipe = Object.assign({}, state.recipe, payload);
-            console.log('SET_RECIPE state.sale',state.recipe);
         },
         SET_RECIPES (state, payload) {
             state.recipes = payload

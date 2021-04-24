@@ -18,7 +18,7 @@
 <script>
     import SaveBtn from '~/components/buttons/SaveBtn'
     import NavBack from '~/components/buttons/NavBack'
-    import SaleForm from './Form'
+    import SaleForm from '~/components/sales/Form'
     import {mapActions} from "vuex";
 
     export default {

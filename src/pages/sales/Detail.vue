@@ -33,7 +33,8 @@
 <script>
     import NavBack from '~/components/buttons/NavBack';
     import EditBtn from '~/components/buttons/EditBtn';
-    import ListItem from "./recipes/ListItem";
+    import ListItem from "~/components/sales/recipes/ListItem";
+
     export default {
         props: ["item"],
         components: {

@@ -2,19 +2,19 @@
     <ScrollView height="100%">
         <ListView for="item in items" class="list-group">
             <v-template>
-                <Card :item="item" @tap="onTap(item)"></Card>
+                <ListItem :item="item" @tap="onTap(item)"></ListItem>
             </v-template>
         </ListView>
     </ScrollView>
 </template>
 
 <script>
-    import Card from "./ListItem";
+    import ListItem from "./ListItem";
     import {mapActions} from "vuex";
 
     export default {
         components: {
-            Card,
+            ListItem,
         },
         props: ["items"],
         computed: {
@@ -32,22 +32,22 @@
             ...mapActions({
                 setRecipe: 'sales/setRecipe',
             }),
-            async fetchItems () {
-                this.loading = true;
-                try {
-                    const params = {
-                        'params': {
-                            type: 1,
-                        }
-                    };
-                    const { data } = await this.$http.get(`/v1/recipes`, params);
-                    if(data)
-                        this.items = data;
-                } catch(error) {
-                    console.log(error);
-                }
-                this.loading = false;
-            },
+            // async fetchItems () {
+            //     this.loading = true;
+            //     try {
+            //         const params = {
+            //             'params': {
+            //                 type: 1,
+            //             }
+            //         };
+            //         const { data } = await this.$http.get(`/v1/recipes`, params);
+            //         if(data)
+            //             this.items = data;
+            //     } catch(error) {
+            //         console.log(error);
+            //     }
+            //     this.loading = false;
+            // },
             onTap(item) {
                 console.log('List tap', item);
                 this.setRecipe(item);
@@ -56,7 +56,7 @@
         },
         mounted() {
             console.log('Recipe List mounted');
-            console.log(this.items);
+            // console.log(this.items);
             // this.fetchItems();
         },
     };

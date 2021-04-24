@@ -36,6 +36,7 @@
 <script>
     import NavBack from '~/components/buttons/NavBack';
     import EditBtn from '~/components/buttons/EditBtn';
+
     export default {
         props: ["item"],
         components: {

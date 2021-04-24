@@ -2,14 +2,15 @@
     <Page>
         <ActionBar>
             <GridLayout width="100%" columns="auto, *">
-                <nav-back col="0" @tap="onCancelButtonTap"></nav-back>
-                <Label col="1" class="title" text="Editar Venta"/>
-                <save-btn v-if="!isUpdating" col="2" @tap="onDoneButtonTap"></save-btn>
+                <cancel-btn col="0" @tap="onCancelButtonTap"></cancel-btn>
+                <Label col="1" class="title" text="Editar Inventario"/>
+                <save-btn col="2" @tap="onDoneButtonTap"></save-btn>
             </GridLayout>
         </ActionBar>
 
-        <GridLayout ~mainContent class="home-panel p-20">
-            <SaleForm v-if="isMounted" ref="form"></SaleForm>
+        <GridLayout>
+            <inventory-form ref="form" :item="item"></inventory-form>
+
             <ActivityIndicator :busy="isUpdating"/>
         </GridLayout>
     </Page>
@@ -17,36 +18,29 @@
 
 <script>
     import SaveBtn from '~/components/buttons/SaveBtn'
-    import NavBack from '~/components/buttons/NavBack'
-    import SaleForm from './Form'
-    import {mapActions} from "vuex";
+    import CancelBtn from '~/components/buttons/CancelBtn'
+    import InventoryForm from '~/components/inventories/Form'
 
     export default {
         components: {
-            SaleForm,
+            InventoryForm,
             SaveBtn,
-            NavBack,
+            CancelBtn,
         },
         props: ["item"],
         data() {
             return {
                 isUpdating: false,
-                isMounted: false,
             };
         },
         methods: {
-            ...mapActions({
-                setSale: 'sales/setSale',
-                setSaleInitialState: 'sales/setSaleInitialState'
-            }),
             onCancelButtonTap() {
                 this.navigateToList();
             },
             navigateToList() {
-                this.setSaleInitialState();
-                this.$navigateTo(this.$routes.SaleList, {
+                this.$navigateTo(this.$routes.InventoryList, {
                     animated: true,
-                    transition: 'slideRight'
+                    transition: 'fade'
                 });
             },
             onDoneButtonTap() {
@@ -57,34 +51,24 @@
                 let form = this.$refs.form.form;
                 try {
                     let data = JSON.stringify(form);
-                    let response = await this.$http.put(`/v1/sales/${form.id}`, data);
-                    this.navigateToList();
+                    let response = await this.$http.put(`/v1/inventories/${form.id}`, data);
+                    console.log('store.auth signIn response.data', response.data)
                 } catch(error) {
                     console.log(error);
                     console.error(error.response.data);
-                    // console.log(Object.keys(error.response))
-                    // console.log(error.response.headers)
+                    console.log(Object.keys(error.response))
+                    console.log(error.response.headers)
                     if(error.response.status === 422) {
-                        console.log(error.response.data.message)
+                        console.log('Revisa los siguientes datos!')
                         console.log(error.response.data.errors)
-                        const printData = Object.values(error.response.data.errors)
-                            .map(entry => entry.join(', '))
-                            .join('. ');
-                        alert({
-                            title: error.response.data.message,
-                            message: printData,
-                            okButtonText: 'Ok'
-                        });
                     }
                 }
                 this.isUpdating = false;
+                this.navigateToList();
             },
         },
         mounted() {
             console.log('Inventory Edit mounted');
-            this.setSale(this.item).then(() => {
-                this.isMounted = true;
-            })
         },
     };
 </script>

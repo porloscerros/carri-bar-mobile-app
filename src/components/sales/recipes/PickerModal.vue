@@ -8,21 +8,21 @@
                 </GridLayout>
             </ActionBar>
             <StackLayout>
-                <RecipeList :items="items" @tap="onItemTap" />
+                <List :items="items" @tap="onItemTap" />
             </StackLayout>
         </Page>
     </Frame>
 </template>
 
 <script>
-    import RecipeList from './List'
+    import List from './List'
     import NavBack from '~/components/buttons/NavBack'
     import {mapActions} from "vuex";
     export default {
         name: "RecipePickerModal",
         props: ["items"],
         components: {
-            RecipeList,
+            List,
             NavBack,
         },
         methods: {
