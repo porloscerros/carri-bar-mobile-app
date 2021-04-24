@@ -22,16 +22,4 @@ new Vue({
             ]
         )
     },
-    methods: {
-
-    },
-    beforeCreate() {
-        console.log('Vue instance beforeCreate')
-    },
-    created() {
-        console.log('Vue instance created')
-    },
-    mounted() {
-        console.log('Vue instance mounted')
-    },
 }).$start();

@@ -8,7 +8,7 @@
             </GridLayout>
         </ActionBar>
 
-        <StackLayout ~mainContent>
+        <StackLayout>
             <GridLayout columns="*,*" rows="*, *" height="100">
                 <Label :text="itemData.date | formatDate" row="0" colSpan="2" horizontalAlignment="center"></Label>
                 <Label :text="itemData.table" col="0" row="1" horizontalAlignment="center"></Label>
@@ -33,7 +33,7 @@
 <script>
     import NavBack from '~/components/buttons/NavBack';
     import EditBtn from '~/components/buttons/EditBtn';
-    import RecipeCard from "./RecipeListItem";
+    import RecipeCard from "./recipes/RecipeListItem";
     export default {
         props: ["item"],
         components: {
@@ -51,7 +51,7 @@
                 this.$navigateTo(this.$routes.InventoryEdit, {
                     props: {item: this.itemData},
                     animated: true,
-                    transition: 'fade'
+                    transition: 'fade',
                 });
             }
         },

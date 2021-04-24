@@ -6,7 +6,7 @@
 </template>
 
 <script>
-    import ItemPickerModal from './ItemPickerModal';
+    import ItemPickerModal from './PickerModal';
     import QuantityModal from './QuantityModal';
     import {mapActions, mapGetters} from "vuex";
 

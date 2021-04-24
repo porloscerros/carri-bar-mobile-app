@@ -1,21 +1,29 @@
 <template>
-    <Page>
-        <ActionBar title="Carta Comida"/>
-        <StackLayout>
-            <Button @tap="$modal.close" text="Cancelar" />
-            <RecipeList :items="items" @tap="onItemTap" />
-        </StackLayout>
-    </Page>
+    <Frame>
+        <Page>
+            <ActionBar>
+                <GridLayout width="100%" columns="auto, *">
+                    <nav-back col="0" @tap="$modal.close"></nav-back>
+                    <Label col="1" class="title" text="Carta"/>
+                </GridLayout>
+            </ActionBar>
+            <StackLayout>
+                <RecipeList :items="items" @tap="onItemTap" />
+            </StackLayout>
+        </Page>
+    </Frame>
 </template>
 
 <script>
-    import RecipeList from '../../recipes/List'
+    import RecipeList from './List'
+    import NavBack from '~/components/buttons/NavBack'
     import {mapActions} from "vuex";
     export default {
         name: "RecipePickerModal",
         props: ["items"],
         components: {
-            RecipeList
+            RecipeList,
+            NavBack,
         },
         methods: {
             ...mapActions({

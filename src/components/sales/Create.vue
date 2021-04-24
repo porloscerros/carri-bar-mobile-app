@@ -8,11 +8,10 @@
             </GridLayout>
         </ActionBar>
 
-        <GridLayout ~mainContent class="home-panel p-20">
+        <GridLayout class="home-panel p-20">
             <SaleForm ref="form"></SaleForm>
             <ActivityIndicator :busy="isUpdating"/>
         </GridLayout>
-
     </Page>
 </template>
 

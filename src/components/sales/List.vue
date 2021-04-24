@@ -19,14 +19,13 @@
             ></fab-btn>
             <ActivityIndicator :busy="loading"/>
         </grid-layout>
-
     </Page>
 </template>
 
 <script>
     import sideDrawer from '~/mixins/sideDrawer';
     import OpenDrawerBtn from "../buttons/OpenDrawerBtn";
-    import Card from "./ListItemCard";
+    import Card from "./ListItem";
     import FabBtn from "../buttons/FabBtn";
 
     export default {

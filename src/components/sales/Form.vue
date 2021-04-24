@@ -36,7 +36,7 @@
     import SelectPicker from "../inputs/SelectPicker";
     import BarMenuBtn from "./recipes/FabBarMenuBtn";
     import FoodMenuBtn from "./recipes/FabFoodMenuBtn";
-    import RecipeCard from "./RecipeListItem";
+    import RecipeCard from "./recipes/RecipeListItem";
     const dialogs = require('tns-core-modules/ui/dialogs');
 
     export default {

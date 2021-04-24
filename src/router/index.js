@@ -1,5 +1,5 @@
 import Login from '~/pages/auth/Login'
-import App from '~/pages/App'
+import App from '~/App'
 import InventoryList from '~/components/inventories/List'
 import InventoryCreate from '~/components/inventories/Create'
 import InventoryDetail from '~/components/inventories/Detail'

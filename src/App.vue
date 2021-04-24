@@ -2,7 +2,7 @@
     <Page class="page">
         <ActionBar class="action-bar">
             <GridLayout width="100%" columns="auto, *">
-                <open-drawer-btn col="0" @tap="openDrawer()"></open-drawer-btn>
+                <OpenDrawerBtn v-if="isAuthenticated && !isAuthenticating" col="0" @tap="openDrawer()"></OpenDrawerBtn>
                 <Label col="1" class="title" text="App" />
             </GridLayout>
         </ActionBar>
@@ -22,7 +22,7 @@
     import sideDrawer from '~/mixins/sideDrawer';
     import {mapActions, mapGetters} from 'vuex';
     import Theme from "@nativescript/theme";
-    import OpenDrawerBtn from "../components/buttons/OpenDrawerBtn";
+    import OpenDrawerBtn from "./components/buttons/OpenDrawerBtn";
 
     export default {
         name: "Home",
@@ -40,10 +40,9 @@
             })
         },
         watch: {
-            isAuthenticated(newValue, oldValue) {
+            isAuthenticated(newValue) {
                 console.log('App watcher');
                 console.log('isAuthenticated cambió a', newValue);
-                console.log('no se está autenticando =', newValue);
                 if(!this.isAuthenticating && !newValue) {
                     this.$navigateTo(this.$routes.Login);
                 }

@@ -8,7 +8,7 @@
             </GridLayout>
         </ActionBar>
 
-        <GridLayout ~mainContent class="home-panel p-20">
+        <GridLayout class="home-panel p-20">
             <SaleForm v-if="isMounted" ref="form"></SaleForm>
             <ActivityIndicator :busy="isUpdating"/>
         </GridLayout>

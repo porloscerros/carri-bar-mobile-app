@@ -76,7 +76,7 @@
             console.log('LOGIN mounted');
             console.log('isAuthenticated =', this.isAuthenticated);
             if(this.isAuthenticated)
-                this.$navigateTo(this.$routes.InventoryList);
+                this.$navigateTo(this.$routes.SaleList);
             /*
             login({
                 title: "Your login title",

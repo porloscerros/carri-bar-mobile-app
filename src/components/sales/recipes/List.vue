@@ -9,7 +9,7 @@
 </template>
 
 <script>
-    import Card from "./ListItemCard";
+    import Card from "./ListItem";
     import {mapActions} from "vuex";
 
     export default {
