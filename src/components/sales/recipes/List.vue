@@ -13,6 +13,7 @@
     import {mapActions} from "vuex";
 
     export default {
+        name: 'RecipesList',
         components: {
             ListItem,
         },
@@ -32,32 +33,13 @@
             ...mapActions({
                 setRecipe: 'sales/setRecipe',
             }),
-            // async fetchItems () {
-            //     this.loading = true;
-            //     try {
-            //         const params = {
-            //             'params': {
-            //                 type: 1,
-            //             }
-            //         };
-            //         const { data } = await this.$http.get(`/v1/recipes`, params);
-            //         if(data)
-            //             this.items = data;
-            //     } catch(error) {
-            //         console.log(error);
-            //     }
-            //     this.loading = false;
-            // },
             onTap(item) {
-                console.log('List tap', item);
                 this.setRecipe(item);
                 this.$emit('tap', item);
             },
         },
         mounted() {
-            console.log('Recipe List mounted');
-            // console.log(this.items);
-            // this.fetchItems();
+            console.log(`${this.$options.name} Monted!`);
         },
     };
 </script>

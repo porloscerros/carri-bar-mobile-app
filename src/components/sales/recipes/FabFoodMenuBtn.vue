@@ -1,13 +1,13 @@
 <template>
     <Fab
-            @tap="openItemPickerModal"
+            @tap="openRecipePickerModal"
             class="fas fab-button" :text="'fa-utensils' | fonticon"
     ></Fab>
 </template>
 
 <script>
-    import ItemPickerModal from './PickerModal';
-    import QuantityModal from './QuantityModal';
+    import RecipePickerModal from './RecipePickerModal';
+    import RecipeQuantityModal from './RecipeQuantityModal';
     import {mapActions, mapGetters} from "vuex";
 
     export default {
@@ -36,28 +36,35 @@
             callback: function(e) {
                 this.$emit('tap', e);
             },
-            openItemPickerModal() {
-                this.$showModal(ItemPickerModal, { fullscreen: true, props: { items: this.items } })
+            openRecipePickerModal() {
+                this.$showModal(RecipePickerModal, {
+                    fullscreen: true,
+                    props: {
+                        items: this.items
+                    }
+                })
                     .then(result => {
                         if (result === 'selected') {
-                            console.log('ItemPickerModal result', result);
-                            this.openQuantityModal();
+                            this.openRecipeQuantityModal();
                         }
                     });
             },
-            openQuantityModal() {
-                console.log('store.selected', this.selected);
-                this.$showModal(QuantityModal, { fullscreen: true })
+            openRecipeQuantityModal() {
+                this.$showModal(RecipeQuantityModal, {
+                    fullscreen: true
+                })
                     .then(result => {
-                        console.log('QuantityModal result', result);
                         if (result === 'selected') {
                             this.addSaleRecipe(this.selected)
                         }
                     });
             },
             onItemTap(e) {
-                console.log('FabMenuBtn onItemTap', e);
+                console.log('FabMenuBtn onItemTap');
             }
+        },
+        mounted() {
+            console.log(`${this.$options.name} Monted!`);
         }
     }
 </script>

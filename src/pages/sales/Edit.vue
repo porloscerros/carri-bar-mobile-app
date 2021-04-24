@@ -9,7 +9,7 @@
         </ActionBar>
 
         <GridLayout class="home-panel p-20">
-            <SaleForm v-if="isMounted" ref="form"></SaleForm>
+            <SaleForm ref="form"></SaleForm>
             <ActivityIndicator :busy="isUpdating"></ActivityIndicator>
         </GridLayout>
     </Page>
@@ -22,6 +22,7 @@
     import {mapActions} from "vuex";
 
     export default {
+        name: 'SaleEdit',
         components: {
             SaleForm,
             SaveBtn,
@@ -44,10 +45,12 @@
             },
             navigateToList() {
                 this.setSaleInitialState();
-                this.$navigateTo(this.$routes.SaleList, {
-                    animated: true,
-                    transition: 'slideRight'
-                });
+                setTimeout(() => {
+                    this.$navigateTo(this.$routes.SaleList, {
+                        animated: true,
+                        transition: 'slideRight'
+                    });
+                }, 1);
             },
             onDoneButtonTap() {
                 this.submitForm();
@@ -55,9 +58,11 @@
             async submitForm () {
                 this.isUpdating = true;
                 let form = this.$refs.form.form;
+                console.log('form', form)
                 try {
                     let data = JSON.stringify(form);
                     let response = await this.$http.put(`/v1/sales/${form.id}`, data);
+                    console.log('response', response)
                     this.navigateToList();
                 } catch(error) {
                     console.log(error);
@@ -81,7 +86,10 @@
             },
         },
         mounted() {
-            console.log('Inventory Edit mounted');
+            console.log(`${this.$options.name} Monted!`);
+        },
+        created() {
+            console.log(`${this.$options.name} Created!`);
             this.setSale(this.item).then(() => {
                 this.isMounted = true;
             })

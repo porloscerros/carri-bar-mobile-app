@@ -1,14 +1,14 @@
 <template>
     <Fab
-            @tap="openItemPickerModal"
+            @tap="openRecipesPickerModal"
             class="fas fab-button" :text="'fa-cocktail' | fonticon"
     ></Fab>
 </template>
 
 <script>
     import {mapActions, mapGetters} from "vuex";
-    import ItemPickerModal from './PickerModal';
-    import QuantityModal from './QuantityModal';
+    import ItemPickerModal from './RecipePickerModal';
+    import QuantityModal from './RecipeQuantityModal';
 
     export default {
         name: "FabBarMenuBtn",
@@ -36,28 +36,33 @@
             callback: function(e) {
                 this.$emit('tap', e);
             },
-            openItemPickerModal() {
-                this.$showModal(ItemPickerModal, { fullscreen: true, props: { items: this.items } })
+            openRecipesPickerModal() {
+                this.$showModal(ItemPickerModal, {
+                    fullscreen: true,
+                    props: {
+                        items: this.items
+                    }
+                })
                     .then(result => {
                         if (result === 'selected') {
-                            console.log('ItemPickerModal result', result);
                             this.openQuantityModal();
                         }
                     });
             },
             openQuantityModal() {
-                console.log('store.selected', this.selected);
                 this.$showModal(QuantityModal, { fullscreen: true })
                     .then(result => {
-                        console.log('QuantityModal result', result);
                         if (result === 'selected') {
                             this.addSaleRecipe(this.selected)
                         }
                     });
             },
             onItemTap(e) {
-                console.log('FabMenuBtn onItemTap', e);
+                console.log('FabMenuBtn onItemTap');
             }
+        },
+        mounted() {
+            console.log(`${this.$options.name} Monted!`);
         }
     }
 </script>

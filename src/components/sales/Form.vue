@@ -44,21 +44,7 @@
     const dialogs = require('tns-core-modules/ui/dialogs');
 
     export default {
-        name: "Form",
-        // props: {
-        //     item: {
-        //         type: Object,
-        //         default() {
-        //             return {
-        //                 id: null,
-        //                 date: new Date().toISOString(),
-        //                 table: '',
-        //                 total: 0,
-        //                 recipes: [],
-        //             }
-        //         }
-        //     },
-        // },
+        name: "SaleForm",
         components: {
             SelectPicker,
             ListItem,
@@ -68,7 +54,7 @@
         computed: {
             ...mapGetters({
                 item: 'sales/sale',
-                recipes: 'sales/form',
+                recipes: 'sales/recipes',
                 saleForm: 'sales/form',
             }),
             total() {
@@ -137,7 +123,7 @@
             },
         },
         mounted() {
-            console.log('Sale Form mounted');
+            console.log(`${this.$options.name} Monted!`)
             this.fetchRecipes();
             this.form = this.saleForm;
         },

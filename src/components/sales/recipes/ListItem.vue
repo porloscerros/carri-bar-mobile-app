@@ -1,6 +1,6 @@
 <template>
     <FlexboxLayout justifyContent="space-between"
-                   @touch="onTouch($event, item)"
+                   @tap="onTap(item)"
                    separatorColor="#ff4081"
     >
 
@@ -21,7 +21,7 @@
 
 <script>
     export default {
-        name: "ListItem",
+        name: "SaleRecipesListItem",
         props: ['item'],
         data() {
             return {
@@ -31,10 +31,9 @@
         },
         methods: {
             calculateSubtotal(item) {
-                console.log(item);
                 return Number(item.quantity) * Number(item.price);
             },
-            onItemTap(item) {
+            onTap(item) {
                 console.log("Tap!");
                 this.$emit("tap", item);
             },
@@ -54,13 +53,12 @@
                     if(duration > 200)
                         this.onLongPress(item);
                     else
-                        this.onItemTap(item);
+                        this.onTap(item);
                 }
             },
         },
         mounted() {
-            console.log('Recipe ListItem mounted');
-            console.log(this.item);
+            console.log(`${this.$options.name} Monted!`);
         },
     }
 </script>

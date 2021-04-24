@@ -20,9 +20,7 @@
     import SaleList from '../../components/sales/List'
 
     export default {
-        mounted() {
-            SelectedPageService.getInstance().updateSelectedPage("Sale");
-        },
+        name: 'SaleIndex',
         components: {
             SaleList,
         },
@@ -30,7 +28,11 @@
             onDrawerButtonTap() {
                 utils.showDrawer();
             }
-        }
+        },
+        mounted() {
+            console.log(`${this.$options.name} Monted!`);
+            SelectedPageService.getInstance().updateSelectedPage("Sale");
+        },
     };
 </script>
 

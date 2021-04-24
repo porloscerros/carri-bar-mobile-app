@@ -1,15 +1,23 @@
 <template>
-    <Frame>
+    <Frame id="recipe-quantity-modal-frame" >
         <Page>
             <ActionBar>
                 <GridLayout width="100%" columns="auto, *">
                     <nav-back col="0" @tap="$modal.close"></nav-back>
-                    <Label col="1" class="title" :text="item? item.name: 'no has seleccionado receta'"/>
+                    <Label col="1" class="title" :text="item.recipe? item.recipe.name: 'no has seleccionado receta'"/>
                 </GridLayout>
             </ActionBar>
             <StackLayout>
-                <Label text="Cantidad:" style="font-size: 14;"></Label>
-                <TextField v-model="quantity" @loaded="showKeyboard" @returnPress="onAddItem" keyboardType="number" horizontalAlignment="center" height="70" width="80%"></TextField>
+                <Label text="Cantidad:" style="font-size: 16;"></Label>
+                <TextField v-model="quantity"
+                           @loaded="showKeyboard"
+                           @returnPress="onAddItem"
+                           keyboardType="number"
+                           horizontalAlignment="center"
+                           textAlignment="center"
+                           height="70"
+                           width="80%"
+                ></TextField>
             </StackLayout>
         </Page>
     </Frame>
@@ -42,7 +50,6 @@
             onItemTap(e) {
             },
             onAddItem(e) {
-                console.log({quantity: this.quantity});
                 this.setRecipe({quantity: this.quantity});
                 this.$modal.close('selected');
             },
@@ -58,7 +65,7 @@
             }
         },
         mounted() {
-            console.log('QuantityModal mounted');
+            console.log(`${this.$options.name} Monted!`);
         },
     }
 </script>

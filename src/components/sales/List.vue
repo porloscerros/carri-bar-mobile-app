@@ -18,6 +18,7 @@
     import FabBtn from "../buttons/FabBtn";
 
     export default {
+        name: 'SalesList',
         components: {
             ListItem,
             FabBtn,
@@ -73,7 +74,7 @@
             }
         },
         mounted() {
-            console.log('Sale List mounted');
+            console.log(`${this.$options.name} Monted!`);
             this.fetchItems();
         },
     };

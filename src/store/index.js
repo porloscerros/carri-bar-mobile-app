@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import sideDrawer from './modules/sideDrawer';
 import auth from './modules/auth';
 import sales from './modules/sales';
 
@@ -15,7 +14,6 @@ const checkNetwork = () => {
 
 export default new Vuex.Store({
     modules: {
-        sideDrawer,
         auth,
         sales
     },
