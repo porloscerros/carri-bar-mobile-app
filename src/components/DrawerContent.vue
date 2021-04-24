@@ -15,14 +15,14 @@
                     <Label col="1" text="Home" class="p-r-10"/>
                 </GridLayout>
 
-                <GridLayout columns="auto, *"
+                <GridLayout v-if="['admin', 'sales'].includes(role)" columns="auto, *"
                             :class="'nt-drawer__list-item' + (selectedPage === 'Sale' ? ' -selected': '')"
                             @tap="onNavigationItemTap(Sale)">
                     <Label col="0" class="nt-icon fas" :text="'fa-chart-line' | fonticon"/>
                     <Label col="1" text="Ventas" class="p-r-10"/>
                 </GridLayout>
 
-                <GridLayout columns="auto, *"
+                <GridLayout v-if="['admin', 'inventory'].includes(role)" columns="auto, *"
                             :class="'nt-drawer__list-item' + (selectedPage === 'Inventory' ? ' -selected': '')"
                             @tap="onNavigationItemTap(Inventory)">
                     <Label col="0" class="nt-icon fas" :text="'fa-box' | fonticon"/>
@@ -37,6 +37,13 @@
                     <Label col="0" text.decode="&#xf013;" class="nt-icon fas"/>
                     <Label col="1" text="Settings" class="p-r-10"/>
                 </GridLayout>
+
+                <GridLayout columns="auto, *"
+                            :class="'nt-drawer__list-item' + (selectedPage === 'Settings' ? ' -selected': '')"
+                            @tap="logout">
+                    <Label col="0" class="nt-icon fas yellow" :text="'fa-sign-out-alt' | fonticon"/>
+                    <Label col="1" text="Salir" class="p-r-10"/>
+                </GridLayout>
             </StackLayout>
         </ScrollView>
     </GridLayout>
@@ -49,7 +56,7 @@
     import Settings from "../pages/Settings";
     import * as utils from "~/shared/utils";
     import { SelectedPageService } from "~/shared/selected-page-service";
-    import {mapGetters} from "vuex";
+    import {mapActions, mapGetters} from "vuex";
 
     export default {
         mounted() {
@@ -60,7 +67,10 @@
             ...mapGetters({
                 isAuthenticated: 'auth/authenticated',
                 user: 'auth/user',
-            })
+            }),
+            role() {
+                return this.user? this.user.role.keyname: null
+            }
         },
         data() {
             return {
@@ -78,12 +88,19 @@
             Settings
         },
         methods: {
+            ...mapActions({
+                signOut: 'auth/signOut',
+            }),
             onNavigationItemTap(component) {
                 this.$navigateTo(component, {
                     clearHistory: true
                 });
                 utils.closeDrawer();
-            }
+            },
+            logout (e) {
+                utils.closeDrawer();
+                this.signOut();
+            },
         }
     };
 </script>
