@@ -8,7 +8,7 @@
             </GridLayout>
         </ActionBar>
 
-        <StackLayout>
+        <StackLayout ~mainContent>
             <GridLayout columns="*,*" rows="*, *" height="100">
                 <Label :text="itemData.date | formatDate" row="0" colSpan="2" horizontalAlignment="center"></Label>
                 <Label :text="itemData.table" col="0" row="1" horizontalAlignment="center"></Label>
@@ -23,7 +23,7 @@
 
             <ListView for="recipe in item.recipes">
                 <v-template>
-                    <RecipeCard :item="recipe"></RecipeCard>
+                    <ListItem :item="recipe"></ListItem>
                 </v-template>
             </ListView>
         </StackLayout>
@@ -33,13 +33,13 @@
 <script>
     import NavBack from '~/components/buttons/NavBack';
     import EditBtn from '~/components/buttons/EditBtn';
-    import RecipeCard from "./recipes/RecipeListItem";
+    import ListItem from "./recipes/ListItem";
     export default {
         props: ["item"],
         components: {
             NavBack,
             EditBtn,
-            RecipeCard,
+            ListItem,
         },
         computed: {
             itemData() {

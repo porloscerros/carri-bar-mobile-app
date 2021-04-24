@@ -20,8 +20,7 @@
 
 <script>
     import sideDrawer from '~/mixins/sideDrawer';
-    import {mapActions, mapGetters} from 'vuex';
-    import Theme from "@nativescript/theme";
+    import {mapGetters} from 'vuex';
     import OpenDrawerBtn from "./components/buttons/OpenDrawerBtn";
 
     export default {

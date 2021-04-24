@@ -18,7 +18,7 @@
             <Scrollview >
                 <ListView for="recipe in form.recipes" height="80%">
                     <v-template>
-                        <RecipeCard :item="recipe"></RecipeCard>
+                        <ListItem :item="recipe"></ListItem>
                     </v-template>
                 </ListView>
             </Scrollview>
@@ -36,7 +36,7 @@
     import SelectPicker from "../inputs/SelectPicker";
     import BarMenuBtn from "./recipes/FabBarMenuBtn";
     import FoodMenuBtn from "./recipes/FabFoodMenuBtn";
-    import RecipeCard from "./recipes/RecipeListItem";
+    import ListItem from "./ListItem";
     const dialogs = require('tns-core-modules/ui/dialogs');
 
     export default {
@@ -57,7 +57,7 @@
         // },
         components: {
             SelectPicker,
-            RecipeCard,
+            ListItem,
             BarMenuBtn,
             FoodMenuBtn,
         },

@@ -10,7 +10,7 @@
         <grid-layout ~mainContent rows="auto, *">
             <list-view row="1" for="item in items" class="list-group">
                 <v-template>
-                    <Card @tap="onEdit" @longPress="onDelete" :item="item"></Card>
+                    <ListItem @tap="onEdit" @longPress="onDelete" :item="item"></ListItem>
                 </v-template>
             </list-view>
             <fab-btn
@@ -25,14 +25,14 @@
 <script>
     import sideDrawer from '~/mixins/sideDrawer';
     import OpenDrawerBtn from "../buttons/OpenDrawerBtn";
-    import Card from "./ListItem";
+    import ListItem from "./ListItem";
     import FabBtn from "../buttons/FabBtn";
 
     export default {
         mixins: [ sideDrawer ],
         components: {
             OpenDrawerBtn,
-            Card,
+            ListItem,
             FabBtn,
         },
         data() {

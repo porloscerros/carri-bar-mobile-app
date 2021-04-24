@@ -5,7 +5,7 @@ import store from '~/store/index';
 import axiosConfig from './api/axios-config';
 import sideDrawer from '~/components/sideDrawer';
 import drawerContent from '~/components/drawerContent';
-
+import App from './App';
 
 store.dispatch("init");
 axiosConfig.init();
