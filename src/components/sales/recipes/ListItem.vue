@@ -1,26 +1,27 @@
 <template>
     <FlexboxLayout justifyContent="space-between"
-                   @touch="onTouch($event, item)"
+                   @tap="onTap(item)"
                    separatorColor="#ff4081"
     >
+
         <Label :text="item.recipe.name" width="50%"></Label>
+
         <Label :text="item.quantity" width="20%" horizontalAlignment="center" textAlignment="center"></Label>
 
         <Label width="30%" textWrap="true" horizontalAlignment="right" textAlignment="right">
             <FormattedString>
                 <Span text.decode="&dollar;"/>
-                <span :text="item.quantity * item.price" fontWeight="Bold"/>
+                <span :text="calculateSubtotal(item)" fontWeight="Bold"/>
             </FormattedString>
         </Label>
+
     </FlexboxLayout>
 
 </template>
 
 <script>
-    const dialogs = require('tns-core-modules/ui/dialogs');
-
     export default {
-        name: "RecipeListItem",
+        name: "SaleRecipesListItem",
         props: ['item'],
         data() {
             return {
@@ -29,28 +30,18 @@
             }
         },
         methods: {
-            onItemTap(item) {
+            calculateSubtotal(item) {
+                return Number(item.quantity) * Number(item.price);
+            },
+            onTap(item) {
+                console.log("Tap!");
                 this.$emit("tap", item);
-                this.$navigateTo(this.$routes.SaleDetail, {
-                    props: { item: item, },
-                    animated: true,
-                    transition: 'fade'
-                })
             },
             onDoubleTap() {
                 console.log("DoubleTap!");
             },
             onLongPress(item) {
-                prompt({
-                    title: 'Corregir Cantidad',
-                    message: 'Ingresa la cantidad real del inventario:',
-                    okButtonText: 'OK',
-                    cancelButtonText: 'Cancelar',
-                    inputType: dialogs.inputType.number
-                })
-                    .then(result => {
-                        console.log(`Dialog result: ${result.result}, text: ${result.text}`)
-                    });
+                console.log("LongPress!");
             },
             onTouch(event, item) {
                 if(event.action === "down") {
@@ -62,10 +53,13 @@
                     if(duration > 200)
                         this.onLongPress(item);
                     else
-                        this.onItemTap(item);
+                        this.onTap(item);
                 }
             },
-        }
+        },
+        mounted() {
+            console.log(`${this.$options.name} Monted!`);
+        },
     }
 </script>
 

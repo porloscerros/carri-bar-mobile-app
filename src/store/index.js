@@ -2,21 +2,31 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 
 import auth from './modules/auth';
-import sideDrawer from './modules/sideDrawer';
+import sales from './modules/sales';
+
+const connectivity = require("connectivity");
 
 Vue.use(Vuex);
 
+const checkNetwork = () => {
+    return connectivity.getConnectionType();
+};
+
 export default new Vuex.Store({
     modules: {
-        sideDrawer,
-        auth
+        auth,
+        sales
     },
     state: {
         appName: 'La Bohemia Admin',
         apiBaseUrl: 'https://la-bohemia.herokuapp.com/api', //http://192.168.43.189:8080/api',
+        connection: 0,
         loadingCount: 0,
     },
     getters: {
+        isOnLine: state => {
+            return state.connection > 0;
+        },
         isLoading: state => {
             return state.loadingCount > 0;
         },
@@ -28,6 +38,9 @@ export default new Vuex.Store({
         },
     },
     mutations: {
+        SET_CONNECTION (state, payload) {
+            state.connection = payload;
+        },
         INCREMENT_LOADING (state) {
             state.loadingCount ++;
         },
@@ -36,9 +49,12 @@ export default new Vuex.Store({
         },
     },
     actions: {
-        init ({ dispatch }) {
+        init ({ commit, dispatch }) {
             console.log('store actions init');
-            dispatch('auth/loadLocalStoredToken', null, { root: true });
+            let network = checkNetwork();
+            commit('SET_CONNECTION', network);
+            dispatch('auth/loadLocalStoredToken');
+            dispatch('auth/me');
         },
         incrementLoading (context) {
             context.commit('INCREMENT_LOADING');

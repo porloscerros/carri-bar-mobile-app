@@ -1,19 +1,16 @@
 import Login from '~/pages/auth/Login'
-import Home from '~/pages/Home'
-import InventoryList from '~/components/inventories/List'
-import InventoryCreate from '~/components/inventories/Create'
-import InventoryDetail from '~/components/inventories/Detail'
-import InventoryEdit from '~/components/inventories/Edit'
-import SaleList from '~/components/sales/List'
-import SaleCreate from '~/components/sales/Create'
-import SaleDetail from '~/components/sales/Detail'
-import SaleEdit from '~/components/sales/Edit'
-import Recipes from '~/pages/recipes/List'
-import Sales from '~/pages/sales/List'
-
+import App from '~/App'
+import InventoryList from '~/pages/inventories/Index'
+import InventoryCreate from '~/pages/inventories/Create'
+import InventoryDetail from '~/pages/inventories/Detail'
+import InventoryEdit from '~/pages/inventories/Edit'
+import SaleList from '~/pages/sales/Index'
+import SaleCreate from '~/pages/sales/Create'
+import SaleDetail from '~/pages/sales/Detail'
+import SaleEdit from '~/pages/sales/Edit'
 const routes = {
+    App,
     Login,
-    Home,
     InventoryList,
     InventoryCreate,
     InventoryDetail,
@@ -22,8 +19,6 @@ const routes = {
     SaleCreate,
     SaleDetail,
     SaleEdit,
-    Recipes,
-    Sales,
 };
 
 export default routes

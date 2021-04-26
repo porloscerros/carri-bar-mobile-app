@@ -18,8 +18,6 @@
 </template>
 
 <script>
-    const dialogs = require('tns-core-modules/ui/dialogs');
-
     export default {
         name: "ListItemCard",
         props: ['item'],
@@ -32,26 +30,14 @@
         methods: {
             onItemTap(item) {
                 this.$emit("tap", item);
-                this.$navigateTo(this.$routes.SaleDetail, {
-                    props: { item: item, },
-                    animated: true,
-                    transition: 'fade'
-                })
             },
-            onDoubleTap() {
+            onDoubleTap(item) {
                 console.log("DoubleTap!");
+                this.$emit("doubleTap", item);
             },
             onLongPress(item) {
-                prompt({
-                    title: 'Corregir Cantidad',
-                    message: 'Ingresa la cantidad real del inventario:',
-                    okButtonText: 'OK',
-                    cancelButtonText: 'Cancelar',
-                    inputType: dialogs.inputType.number
-                })
-                    .then(result => {
-                        console.log(`Dialog result: ${result.result}, text: ${result.text}`)
-                    });
+                console.log("LongPress!");
+                this.$emit("longPress", item);
             },
             onTouch(event, item) {
                 if(event.action === "down") {

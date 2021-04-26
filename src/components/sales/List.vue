@@ -1,44 +1,27 @@
 <template>
-    <Page>
-        <ActionBar>
-            <GridLayout width="100%" columns="auto, *">
-                <open-drawer-btn col="0" @tap="openDrawer()"></open-drawer-btn>
-                <Label col="1" class="title" text="Ventas" />
-            </GridLayout>
-        </ActionBar>
-
-        <grid-layout ~mainContent rows="auto, *">
-            <list-view row="1" for="item in items" class="list-group">
-                <v-template>
-                    <Card :item="item"></Card>
-                </v-template>
-            </list-view>
-            <fab-btn
-                    @tap="onCreate"
-                    row="1"
-            ></fab-btn>
-        </grid-layout>
-    </Page>
+    <grid-layout rows="auto, *">
+        <list-view row="1" for="item in items" class="list-group">
+            <v-template>
+                <ListItem @tap="onEdit" @longPress="onDelete" :item="item"></ListItem>
+            </v-template>
+        </list-view>
+        <fab-btn
+                @tap="onCreate"
+                row="1"
+        ></fab-btn>
+        <ActivityIndicator :busy="loading"/>
+    </grid-layout>
 </template>
 
 <script>
-    import sideDrawer from '~/mixins/sideDrawer';
-    import OpenDrawerBtn from "../buttons/OpenDrawerBtn";
-    import Card from "./ListItemCard";
+    import ListItem from "./ListItem";
     import FabBtn from "../buttons/FabBtn";
-    import Theme from "@nativescript/theme";
 
     export default {
-        mixins: [ sideDrawer ],
+        name: 'SalesList',
         components: {
-            OpenDrawerBtn,
-            Card,
+            ListItem,
             FabBtn,
-        },
-        computed: {
-            isLoading() {
-                return !this.items.length;
-            }
         },
         data() {
             return {
@@ -67,16 +50,32 @@
             onCreate() {
                 this.$navigateTo(this.$routes.SaleCreate, {
                     animated: true,
-                    transition: 'fade'
+                    transition: 'slide'
                 });
             },
+            onEdit(item) {
+                this.$navigateTo(this.$routes.SaleEdit, {
+                    props: { item: item, },
+                    animated: true,
+                    transition: 'slide'
+                })
+            },
+            onDelete(item) {
+                confirm({
+                    title: "¿Confirma eliminar la Venta?",
+                    message: "Esta operación no se puede deshacer",
+                    okButtonText: "OK",
+                    cancelButtonText: "Cancelar"
+                }).then(result => {
+                    console.log(result);
+                    if (result)
+                        alert('Esta característica aún no está disponible.')
+                });
+            }
         },
         mounted() {
-            console.log('Sale List mounted');
+            console.log(`${this.$options.name} Monted!`);
             this.fetchItems();
-
-            // Theme.setMode(Theme.Light);
-            Theme.toggleMode();
         },
     };
 </script>

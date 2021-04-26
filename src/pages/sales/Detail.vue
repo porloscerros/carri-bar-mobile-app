@@ -23,7 +23,7 @@
 
             <ListView for="recipe in item.recipes">
                 <v-template>
-                    <RecipeCard :item="recipe"></RecipeCard>
+                    <ListItem :item="recipe"></ListItem>
                 </v-template>
             </ListView>
         </StackLayout>
@@ -33,13 +33,14 @@
 <script>
     import NavBack from '~/components/buttons/NavBack';
     import EditBtn from '~/components/buttons/EditBtn';
-    import RecipeCard from "./RecipeListItem";
+    import ListItem from "~/components/sales/recipes/ListItem";
+
     export default {
         props: ["item"],
         components: {
             NavBack,
             EditBtn,
-            RecipeCard,
+            ListItem,
         },
         computed: {
             itemData() {
@@ -51,7 +52,7 @@
                 this.$navigateTo(this.$routes.InventoryEdit, {
                     props: {item: this.itemData},
                     animated: true,
-                    transition: 'fade'
+                    transition: 'fade',
                 });
             }
         },
